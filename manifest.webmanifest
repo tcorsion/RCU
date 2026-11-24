@@ -1,0 +1,17 @@
+{
+  "name": "Chauffage Urbain — Connaissances & Outils terrain",
+  "short_name": "Chauffage Urbain",
+  "description": "Base de connaissances du chauffage urbain (Dalkia/ELM Lyon) et outils de terrain : inspection de sous-station (SST) avec PV exportable. Fonctionne hors-ligne.",
+  "lang": "fr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fafaf9",
+  "theme_color": "#c2410c",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

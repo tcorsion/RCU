@@ -1,0 +1,405 @@
+﻿[
+  {
+    "id": "inspection-sst",
+    "title": "Inspection SST â€” RÃ©ception de chantier (check-list abonnÃ©, mars 2023)",
+    "desc": "Ton formulaire d'inspection de sous-station (check-list mars 2023, dÃ©taillÃ©e C/NC avec rÃ©glementation). Source : checklist-mars-2023.pdf.",
+    "source": "checklist-mars-2023.pdf",
+    "categories": [
+      {
+        "name": "Ã‰lectricitÃ©",
+        "points": [
+          {
+            "id": "abo23-el1",
+            "label": "Ã‰clairage sous hublots Ã©tanches",
+            "reg": "NF C 15-100",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-el2",
+            "label": "Ã‰clairage suffisant du local",
+            "reg": "NF C 15-100 â€” art. 17 arrÃªtÃ© du 23 juin 1978",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-el3",
+            "label": "Ã‰clairage de sÃ©curitÃ© (bloc autonome de secours)",
+            "reg": "NF C 15-100",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-el4",
+            "label": "Coupure extÃ©rieure force et Ã©clairage distincts et repÃ©rÃ©s sous boÃ®tier rouge",
+            "reg": "Art. 29 arrÃªtÃ© du 23 juin 1978",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-el5",
+            "label": "Disjoncteur mono 16 A avec diffÃ©rentiel, indissociablement liÃ© Ã  la coupure extÃ©rieure (force + Ã©clairage), Ã  disposition en chaufferie pour alimentation SKID",
+            "reg": "NF C 15-100",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-el6",
+            "label": "Disjoncteur dÃ©part alimentation SKID Ã©tiquetÃ©",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-el7",
+            "label": "Ã‰lectricitÃ© du local fonctionnelle : force (primaire + secondaire), Ã©clairage, Ã©clairage de secours",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Local SST",
+        "points": [
+          {
+            "id": "abo23-ls1",
+            "label": "RepÃ©rage Â« accÃ¨s interdit au public Â»",
+            "reg": "Art. 21 arrÃªtÃ© du 23 juin 1978 / DTU 65.3 Â§ 2.2.2",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-ls2",
+            "label": "Seuil de rÃ©tention H = 15 cm, ou rÃ©tention 5 mÂ³ si P â‰¤ 2000 kW, ou 10 mÂ³ si P > 2000 kW",
+            "reg": "DTU 65.3 Â§ 2.4",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-ls3",
+            "label": "Ventilation haute conforme : mini 16 dmÂ² + 8 dmÂ² par tranche de 1000 kW (pour HT : sortie > 2,5 m d'un ouvrant)",
+            "reg": "DTU 65.3 Â§ 2.4",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-ls4",
+            "label": "Ventilation basse conforme : mini 16 dmÂ² + 8 dmÂ² par tranche de 1000 kW (pour HT : sortie > 2,5 m d'un ouvrant)",
+            "reg": "DTU 65.3 Â§ 2.4",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-ls5",
+            "label": "Prises d'air protÃ©gÃ©es par un grillage ou dispositif analogue contre les corps Ã©trangers",
+            "reg": "Art. 28 arrÃªtÃ© du 23 juin 1978",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-ls6",
+            "label": "TempÃ©rature ambiante < 30 Â°C pour +15 Â°C extÃ©rieur",
+            "reg": "Art. 28 arrÃªtÃ© du 23 juin 1978",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-ls7",
+            "label": "Puisard mini 40Ã—40Ã—40 + pompe de relevage haute tempÃ©rature + raccordement au rÃ©seau d'Ã©vacuation HT + dÃ©clencheur manuel Ã  proximitÃ© de la porte d'entrÃ©e",
+            "reg": "DTU 65.3 Â§ 2.5 â€” art. 9 arrÃªtÃ© du 23 juin 1978",
+            "types": [
+              "HT"
+            ]
+          },
+          {
+            "id": "abo23-ls8",
+            "label": "Siphon de sol prÃ©sent et connectÃ© au rÃ©seau d'Ã©vacuation",
+            "reg": "Art. 9 arrÃªtÃ© du 23 juin 1978 / Guide ELM",
+            "types": [
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-ls9",
+            "label": "Porte coupe-feu 2 h donnant directement sur l'extÃ©rieur + barre antipanique",
+            "reg": "ArrÃªtÃ© du 23 juin 1978",
+            "types": [
+              "HT"
+            ]
+          },
+          {
+            "id": "abo23-ls10",
+            "label": "Canon de serrure DALKIA en place (Ã  fournir par DALKIA)",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-ls11",
+            "label": "Aucun rÃ©seau Ã©tranger au fonctionnement de la chaufferie ne chemine dans le volume chaufferie (gaz, eau potable, Ã©lectricitÃ©, eau usÃ©eâ€¦)",
+            "reg": "ArrÃªtÃ© du 23 juin 1978",
+            "types": [
+              "HT"
+            ]
+          },
+          {
+            "id": "abo23-ls12",
+            "label": "Toutes les rÃ©servations mur/sol/plafond refermÃ©es et Ã©tanchÃ©ifiÃ©es",
+            "reg": "ArrÃªtÃ© du 23 juin 1978",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Hydraulique secondaire",
+        "points": [
+          {
+            "id": "abo23-hy1",
+            "label": "Purges d'air : collecteur principal et points hauts",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-hy2",
+            "label": "DÃ©bit secondaire variable",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-hy3",
+            "label": "Adoucisseur sur eau d'appoint et TH nul lors du dÃ©marrage",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-hy4",
+            "label": "Point de puisage eau froide Ã  proximitÃ© du puisard",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-hy5",
+            "label": "Groupe de maintien de pression",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-hy6",
+            "label": "Pot Ã  boues",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-hy7",
+            "label": "Filtre en dÃ©bit plein retour gÃ©nÃ©ral Ã©changeur",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-hy8",
+            "label": "Soupape de sÃ©curitÃ©",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-hy9",
+            "label": "La rÃ©gulation assure un dÃ©bit d'irrigation minimal de l'Ã©changeur pour Ã©viter la mise en sÃ©curitÃ© de la SST",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-hy10",
+            "label": "Calorifuge des tuyauteries et gÃ©nÃ©rateurs obligatoire",
+            "reg": "Art. 25 arrÃªtÃ© du 23 juin 1978",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-hy11",
+            "label": "PropriÃ©tÃ©s de rÃ©action au feu exigÃ©es selon la sÃ©curitÃ© incendie",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-hy12",
+            "label": "Ensemble de l'installation secondaire terminÃ©, bon pour exploitation",
+            "reg": "Guide des prÃ©conisations ELM",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SÃ©curitÃ© / Protection incendie / AccÃ¨s",
+        "points": [
+          {
+            "id": "abo23-se1",
+            "label": "Caillebotis au-dessus du puisard",
+            "reg": "Code du travail",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-se2",
+            "label": "Extincteur et signalisation incendie",
+            "reg": "Art. R. 232-12-17 et R. 232-1-14 Code du travail",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-se3",
+            "label": "Absence de stockage de matÃ©riaux divers en sous-station",
+            "reg": "Art. R. 232-1-14 Code du travail â€” art. 16 arrÃªtÃ© du 23 juin 1978",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-se4",
+            "label": "Local propre",
+            "reg": "Art. 10 arrÃªtÃ© du 23 juin 1978",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-se5",
+            "label": "Au moins un dÃ©gagement de largeur 0,80 m",
+            "reg": "Art. R. 4227-5 Code du travail",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-se6",
+            "label": "Arrase infÃ©rieur des tuyauteries isolÃ©es Ã  + 2 m",
+            "reg": "Guide des prÃ©conisations Dalkia",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-se7",
+            "label": "AccÃ¨s sÃ©curisÃ© (escalier avec rampe, etc.)",
+            "reg": "Code du travail",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-se8",
+            "label": "Sol en bon Ã©tat (non glissant ou dÃ©fectueux)",
+            "reg": "Art. 16 arrÃªtÃ© du 23 juin 1978 / Code du travail",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-se9",
+            "label": "Poste de travail non exposÃ© de faÃ§on rÃ©pÃ©titive aux bruits",
+            "reg": "Code du travail",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-se10",
+            "label": "Poste de travail non exposÃ© Ã  un environnement non sÃ»r (absence de risque d'agression)",
+            "reg": "Code du travail",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          },
+          {
+            "id": "abo23-se11",
+            "label": "Absence de risque de choc avec des parties saillantes",
+            "reg": "Code du travail",
+            "types": [
+              "HT",
+              "BT"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
+

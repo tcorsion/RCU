@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#c2410c">
+<title>PV d'inspection — Chauffage Urbain</title>
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .pv-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; }
+  .pv-head h2 { color: var(--orange-dark); }
+  table.pv { border-collapse: collapse; width: 100%; font-size: .85rem; margin-top: 8px; }
+  table.pv th, table.pv td { border: 1px solid var(--line); padding: 6px 8px; vertical-align: top; text-align: left; }
+  table.pv th { background: var(--orange-light); }
+  .sig-canvas { border: 1px solid var(--line); border-radius: 10px; background:#fff; touch-action: none; width: 100%; max-width: 420px; height: 140px; }
+  .pv-photos { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+  .pv-photos img { width: 110px; height: 110px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); }
+  @media print {
+    .no-print { display: none !important; }
+    #topbar, #tabbar { display: none !important; }
+    body { padding-bottom: 0; }
+    .card { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<header id="topbar" class="no-print">
+  <div class="brand">
+    <img src="icons/icon-192.png" alt="" class="brand-icon">
+    <div><h1>PV d'inspection</h1><span class="subtitle">Chauffage urbain — sous-station</span></div>
+  </div>
+</header>
+<main id="view" style="max-width:980px;margin:0 auto;padding:16px 14px 24px"></main>
+<script src="rapport.js"></script>
+</body>
+</html>

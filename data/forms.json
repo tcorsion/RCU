@@ -1,0 +1,63 @@
+{
+  "projet": {
+    "id": "projet",
+    "store": "projets",
+    "ico": "📁",
+    "title": "Fiche projet",
+    "desc": "Toutes les infos d'un projet de raccordement / sous-station, retrouvables en un coup d'œil.",
+    "listTitle": "nom",
+    "fields": [
+      { "id": "nom", "label": "Nom du projet", "type": "text", "required": true, "placeholder": "Ex. Raccordement Résidence Les Tilleuls" },
+      { "id": "adresse", "label": "Adresse / site", "type": "text", "placeholder": "N° et rue" },
+      { "id": "ville", "label": "Ville", "type": "text", "placeholder": "Ex. Lyon 3e" },
+      { "id": "client", "label": "Client / abonné", "type": "text" },
+      { "id": "moa", "label": "Maître d'ouvrage", "type": "text" },
+      { "id": "exploitant", "label": "Exploitant (DSP)", "type": "text", "placeholder": "Ex. Dalkia Centre Est / ELM" },
+      { "id": "reseau", "label": "Réseau", "type": "select", "options": ["Chauffage urbain", "Froid urbain", "Chauffage + froid"] },
+      { "id": "typeSST", "label": "Type de sous-station", "type": "select", "options": ["HT (≥ 110 °C)", "BT (< 110 °C)", "Froid", "Non concerné"] },
+      { "id": "puissance", "label": "Puissance SST (kW)", "type": "number" },
+      { "id": "nbEchangeurs", "label": "Nombre d'échangeurs", "type": "number" },
+      { "id": "diamReseau", "label": "Diamètre canalisation réseau (mm)", "type": "text" },
+      { "id": "dateRaccordement", "label": "Raccordement prévu le", "type": "date" },
+      { "id": "dateMES", "label": "Mise en service prévue le", "type": "date" },
+      { "id": "etat", "label": "État du projet", "type": "select", "options": ["Étude", "En consultation (DCE)", "En travaux", "Raccordé", "En service", "Bloqué"] },
+      { "id": "contacts", "label": "Contacts", "type": "contacts", "subfields": [
+        { "id": "nom", "label": "Nom", "type": "text", "placeholder": "Nom et prénom" },
+        { "id": "role", "label": "Fonction / rôle", "type": "text", "placeholder": "Ex. Conducteur de travaux, exploitant…" },
+        { "id": "tel", "label": "Téléphone", "type": "text", "placeholder": "06 …" },
+        { "id": "mail", "label": "E-mail", "type": "text", "placeholder": "prenom.nom@…" }
+      ] },
+      { "id": "documents", "label": "Documents de référence (PDF de la base)", "type": "textarea", "placeholder": "Ex. Guide des préconisations rev.3, STG Sous-Stations, Check-list mars 2023…" },
+      { "id": "remarques", "label": "Remarques", "type": "textarea" }
+    ]
+  },
+  "avancement": {
+    "id": "avancement",
+    "store": "avancements",
+    "ico": "🚧",
+    "title": "Point d'avancement des travaux",
+    "desc": "Faire le point à une date donnée : avancement par poste, blocages, prochaines étapes.",
+    "listTitle": "date",
+    "fields": [
+      { "id": "projet", "label": "Projet concerné", "type": "select-projets", "placeholder": "Choisir un projet enregistré…" },
+      { "id": "projetLibre", "label": "…ou projet non enregistré (texte libre)", "type": "text" },
+      { "id": "date", "label": "Date du point", "type": "date", "required": true },
+      { "id": "redacteur", "label": "Rédacteur", "type": "text" },
+      { "id": "avancementGlobal", "label": "Avancement global (%)", "type": "number" },
+      { "id": "postes", "label": "Avancement par poste", "type": "postes", "postes": [
+        "Terrassement / voirie",
+        "Génie civil (chambres, caniveaux)",
+        "Fourniture canalisations",
+        "Pose canalisations réseau",
+        "Raccordement primaire (traversée paroi)",
+        "Sous-station — fourniture & pose",
+        "Électricité / régulation / comptage",
+        "Essais & réception (OPR)",
+        "Mise en service"
+      ] },
+      { "id": "blocages", "label": "Points bloquants / aléas", "type": "textarea", "placeholder": "Ce qui bloque, pourquoi, depuis quand…" },
+      { "id": "actions", "label": "Prochaines actions (quoi, qui, pour quand)", "type": "textarea" },
+      { "id": "remarques", "label": "Remarques diverses", "type": "textarea" }
+    ]
+  }
+}

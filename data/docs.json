@@ -1,0 +1,74 @@
+﻿[
+  {
+    "file": "guide-preconisations-ELM-rev3-2024.pdf",
+    "title": "Guide des prÃ©conisations techniques ELM (rÃ©v. 3, 2024)",
+    "desc": "RÃ©fÃ©rence principale abonnÃ© : rÃ©seaux chaud/froid Centre MÃ©tropole, sous-stations HT/BT/froid, limites de prestations, mise en service, installations secondaires.",
+    "tags": "guide, prÃ©conisations, abonnÃ©, sous-station, raccordement, limites de prestations",
+    "icon": "ðŸ“˜"
+  },
+  {
+    "file": "STG-sous-stations.pdf",
+    "title": "STG Sous-Stations (DCE Dalkia/ELM)",
+    "desc": "SpÃ©cifications techniques gÃ©nÃ©rales des travaux de sous-station : types 1 Ã  4, dimensionnement, SKID, essais, rÃ©ception, DOE.",
+    "tags": "STG, sous-station, DCE, dimensionnement, skid, rÃ©ception",
+    "icon": "ðŸ“"
+  },
+  {
+    "file": "AO-raccordement-STG-GC.pdf",
+    "title": "AO Raccordements rÃ©seau â€” Annexe 1 STG â€” GÃ©nie Civil",
+    "desc": "Annexe gÃ©nie civil des raccordements rÃ©seau : terrassements, chambres, caniveaux, rÃ©fection de voirie.",
+    "tags": "raccordement, gÃ©nie civil, travaux, annexe 1",
+    "icon": "ðŸ§±"
+  },
+  {
+    "file": "AO-raccordement-STG-fourniture-pose.pdf",
+    "title": "AO Raccordements rÃ©seau â€” Annexe 1 STG â€” Fourniture et pose",
+    "desc": "Annexe fourniture et pose des canalisations de raccordement rÃ©seau primaire.",
+    "tags": "raccordement, fourniture, pose, canalisations, annexe 1",
+    "icon": "ðŸ”§"
+  },
+  {
+    "file": "checklist-abonne-v2026.pdf",
+    "title": "Check-list abonnÃ© v2026 â€” RÃ©ception / OPR / Mise en service",
+    "desc": "Points de contrÃ´le cÃ´tÃ© abonnÃ©, applicables HT (â‰¥110 Â°C), BT (<110 Â°C) ou froid.",
+    "tags": "check-list, abonnÃ©, OPR, mise en service, v2026",
+    "icon": "âœ…"
+  },
+  {
+    "file": "checklist-ELM-v2026.pdf",
+    "title": "Check-list ELM v2026 â€” RÃ©ception / OPR / Mise en service",
+    "desc": "Points de contrÃ´le cÃ´tÃ© exploitant ELM (rÃ©seau primaire, skid, rÃ©gulation, Ã©lectricitÃ©), applicables HT / BT / froid.",
+    "tags": "check-list, ELM, exploitant, OPR, mise en service, v2026",
+    "icon": "âœ…"
+  },
+  {
+    "file": "checklist-mars-2023.pdf",
+    "title": "Check-list abonnÃ© â€” RÃ©ception de chantier (mars 2023)",
+    "desc": "Check-list dÃ©taillÃ©e C/NC avec rÃ©glementation associÃ©e : Ã©lectricitÃ©, local SST, hydraulique secondaire, sÃ©curitÃ© incendie et accÃ¨s.",
+    "tags": "check-list, rÃ©ception, chantier, C/NC, rÃ©glementation, 2023",
+    "icon": "ðŸ“‹"
+  },
+  {
+    "file": "arrete-23-juin-1978-chaufferies.pdf",
+    "title": "ArrÃªtÃ© du 23 juin 1978 (installations de chauffage fixes)",
+    "desc": "Texte fondateur des chaufferies : articles 9, 10, 16, 17, 21, 22, 25, 28, 29 notamment citÃ©s dans les check-lists.",
+    "tags": "rÃ©glementation, arrÃªtÃ©, 1978, chaufferie, lÃ©gifrance",
+    "icon": "âš–ï¸"
+  },
+  {
+    "file": "reglement-voirie-2012.pdf",
+    "title": "RÃ¨glement de voirie (juin 2012)",
+    "desc": "RÃ¨gles de travaux sur voirie : autorisations, signalisation, rÃ©fection des tranchÃ©es, remise en Ã©tat.",
+    "tags": "voirie, travaux, autorisation, tranchÃ©e, rÃ©fection",
+    "icon": "ðŸš§"
+  },
+  {
+    "file": "schema-principe-HP-ELM.pdf",
+    "title": "SchÃ©ma de principe HP â€” Dalkia Lyon mono-Ã©changeur (version ELM)",
+    "desc": "SchÃ©ma de principe de la sous-station mono-Ã©changeur haute performance cÃ´tÃ© rÃ©seau ELM.",
+    "tags": "schÃ©ma, principe, HP, mono-Ã©changeur, ELM",
+    "icon": "ðŸ—ºï¸"
+  }
+]
+
+
