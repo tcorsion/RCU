@@ -89,13 +89,18 @@ const DB = {
 };
 
 /* ---------- chargement des données ---------- */
+/* Décodage UTF-8 forcé : certains hébergeurs servent les .json sans charset */
+async function fetchJsonUtf8(url) {
+  const buf = await (await fetch(url)).arrayBuffer();
+  return JSON.parse(new TextDecoder('utf-8').decode(buf));
+}
 async function loadData() {
   if (loadData._p) return loadData._p;
   loadData._p = Promise.all([
-    fetch('data/docs.json').then(r => r.json()),
-    fetch('data/fiches.json').then(r => r.json()),
-    fetch('data/checklists.json').then(r => r.json()),
-    fetch('data/forms.json').then(r => r.json()),
+    fetchJsonUtf8('data/docs.json'),
+    fetchJsonUtf8('data/fiches.json'),
+    fetchJsonUtf8('data/checklists.json'),
+    fetchJsonUtf8('data/forms.json'),
   ]).then(([docs, fiches, checklists, forms]) => ({ docs, fiches, checklists, forms }));
   return loadData._p;
 }
