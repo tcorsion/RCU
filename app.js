@@ -38,6 +38,107 @@ function netStatus() {
   update();
 }
 
+/* ---------- thème sombre / clair ---------- */
+function applyTheme(dark) {
+  document.documentElement.classList.toggle('dark', dark);
+  localStorage.setItem('cu_dark', dark ? '1' : '0');
+  const b = $('#btn-theme');
+  if (b) b.textContent = dark ? '☀️' : '🌙';
+}
+function initTheme() {
+  const saved = localStorage.getItem('cu_dark');
+  const dark = saved === null
+    ? !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    : saved === '1';
+  applyTheme(dark);
+}
+
+/* ---------- verrouillage par code PIN ---------- */
+function pinHash(pin) {
+  // hash local simple (djb2) — verrou d'accès, pas du chiffrement
+  let h = 5381;
+  const s = 'cu|' + pin;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
+  return h.toString(16);
+}
+function initLock() {
+  const pin = localStorage.getItem('cu_pin');
+  const screen = $('#lock-screen');
+  if (!pin || !screen) { if (screen) screen.classList.add('hidden'); return; }
+  screen.classList.remove('hidden');
+  const input = $('#lock-pin');
+  const err = $('#lock-error');
+  const tryUnlock = () => {
+    if (pinHash(input.value) === pin) {
+      screen.classList.add('hidden');
+      input.value = '';
+      if (err) err.classList.add('hidden');
+    } else {
+      if (err) err.classList.remove('hidden');
+      input.value = '';
+      input.focus();
+    }
+  };
+  $('#lock-ok').onclick = tryUnlock;
+  input.onkeydown = (e) => { if (e.key === 'Enter') tryUnlock(); };
+  input.focus();
+}
+
+/* ---------- carte de gestion du PIN (accueil) ---------- */
+function renderPinZone() {
+  const zone = $('#pin-zone');
+  if (!zone) return;
+  if (!localStorage.getItem('cu_pin')) {
+    zone.innerHTML = `
+      <div class="grid2">
+        <div class="field"><label>Nouveau code PIN (4 à 8 chiffres)</label><input type="password" id="pin-a" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off"></div>
+        <div class="field"><label>Confirmer le code</label><input type="password" id="pin-b" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off"></div>
+      </div>
+      <div class="btn-row"><button class="btn" id="pin-set" type="button">🔒 Activer le verrouillage</button></div>
+      <p class="small muted" style="margin:6px 0 0">Le code n'est stocké que sur cet appareil ; l'appli se verrouille à chaque démarrage.</p>`;
+    $('#pin-set', zone).onclick = () => {
+      const a = $('#pin-a', zone).value, b = $('#pin-b', zone).value;
+      if (!/^[0-9]{4,8}$/.test(a)) return toast('❌ Le code doit faire 4 à 8 chiffres');
+      if (a !== b) return toast('❌ Les deux codes ne correspondent pas');
+      localStorage.setItem('cu_pin', pinHash(a));
+      toast('🔒 Verrouillage activé');
+      renderPinZone();
+    };
+  } else {
+    zone.innerHTML = `
+      <p class="small">✅ Un code PIN est actif : l'application se verrouille au démarrage.</p>
+      <div class="btn-row">
+        <button class="btn secondary" id="pin-change" type="button">✏️ Modifier le code</button>
+        <button class="btn danger" id="pin-off" type="button">❌ Désactiver</button>
+      </div>
+      <div id="pin-change-zone"></div>`;
+    $('#pin-off', zone).onclick = () => {
+      if (confirm('Désactiver le verrouillage par code PIN ?')) {
+        localStorage.removeItem('cu_pin');
+        toast('Verrouillage désactivé');
+        renderPinZone();
+      }
+    };
+    $('#pin-change', zone).onclick = () => {
+      const cz = $('#pin-change-zone', zone);
+      cz.innerHTML = `
+        <div class="grid2">
+          <div class="field"><label>Code actuel</label><input type="password" id="pin-old" inputmode="numeric" maxlength="8" autocomplete="off"></div>
+          <div class="field"><label>Nouveau code (4 à 8 chiffres)</label><input type="password" id="pin-new" inputmode="numeric" maxlength="8" autocomplete="off"></div>
+        </div>
+        <div class="btn-row"><button class="btn" id="pin-save" type="button">💾 Enregistrer le nouveau code</button></div>`;
+      $('#pin-save', cz).onclick = () => {
+        const old = $('#pin-old', cz).value, nw = $('#pin-new', cz).value;
+        if (pinHash(old) !== localStorage.getItem('cu_pin')) return toast('❌ Code actuel incorrect');
+        if (!/^[0-9]{4,8}$/.test(nw)) return toast('❌ Le code doit faire 4 à 8 chiffres');
+        localStorage.setItem('cu_pin', pinHash(nw));
+        toast('✅ Code modifié');
+        renderPinZone();
+      };
+    };
+  }
+}
+
 /* ---------- stockage IndexedDB (inspections, projets, avancements, photos) ---------- */
 const DB = {
   db: null,
@@ -125,6 +226,25 @@ Routes.accueil = async function () {
   const avancements = await DB.all('avancements');
   const last = insp.slice(0, 3);
 
+  // ---- données du tableau de bord ----
+  let ncTotal = 0;
+  for (const r of insp) ncTotal += computeStats(r).nc;
+  const etats = {};
+  for (const p of projets) { const e = p.values?.etat || 'Non renseigné'; etats[e] = (etats[e] || 0) + 1; }
+  // avancement moyen : dernier point d'avancement de chaque projet
+  const lastAvByProjet = {};
+  for (const a of avancements) {
+    const pid = a.values?.projet || a.values?.projetLibre || '(sans projet)';
+    if (!lastAvByProjet[pid] || (a.values?.date || '') >= (lastAvByProjet[pid].values?.date || '')) lastAvByProjet[pid] = a;
+  }
+  const avs = Object.values(lastAvByProjet).map(a => a.values?.avancementGlobal).filter(x => x !== null && x !== undefined && x !== '');
+  const avMoyen = avs.length ? Math.round(avs.reduce((s, x) => s + Number(x), 0) / avs.length) : null;
+  const today = new Date().toISOString().slice(0, 10);
+  const mes = projets
+    .filter(p => p.values?.dateMES && p.values.dateMES >= today)
+    .sort((a, b) => (a.values.dateMES || '').localeCompare(b.values.dateMES || ''))
+    .slice(0, 3);
+
   const descs = {
     accueil: "Vue d'ensemble de l'application",
     projets: `${projets.length} fiche(s) projet — retrouver toutes les infos d'un chantier`,
@@ -138,6 +258,21 @@ Routes.accueil = async function () {
     <h2 class="page-title">Bienvenue</h2>
     <p class="page-sub">Ta base de connaissances chauffage urbain et tes outils de terrain, même sans réseau.</p>
 
+    <input id="global-search" class="search" type="search" placeholder="🔍 Rechercher partout : documents, fiches, projets, avancements, inspections…">
+    <div id="global-results"></div>
+
+    <div class="card dash">
+      <h3>📊 Tableau de bord</h3>
+      <div class="dash-grid">
+        <div class="stat"><span class="n">${insp.length}</span><span class="l">inspection(s)</span></div>
+        <div class="stat"><span class="n" style="color:var(--ko)">${ncTotal}</span><span class="l">non-conformité(s)</span></div>
+        <div class="stat"><span class="n">${projets.length}</span><span class="l">projet(s)</span></div>
+        <div class="stat"><span class="n">${avMoyen !== null ? avMoyen + ' %' : '—'}</span><span class="l">avancement moyen</span></div>
+      </div>
+      ${Object.keys(etats).length ? `<p class="small muted" style="margin:8px 0 0">Projets par état : ${Object.entries(etats).map(([e, n]) => esc(e) + ' : ' + n).join(' · ')}</p>` : ''}
+      ${mes.length ? `<p class="small" style="margin:6px 0 0">🚀 Prochaines mises en service : ${mes.map(p => `<a href="#/projets/voir/${encodeURIComponent(p.id)}">${esc(p.values.nom || 'Projet')}</a> — ${esc(p.values.dateMES)}`).join(' · ')}</p>` : ''}
+    </div>
+
     <div class="tiles">
       ${TABS.filter(t => t.route !== 'accueil').map(t => `
       <a class="tile${t.cta ? ' cta' : ''}" href="#/${t.route}">
@@ -149,12 +284,23 @@ Routes.accueil = async function () {
     <div class="card" style="margin-top:18px">
       <h3>🔄 Synchronisation & sauvegarde</h3>
       <p class="muted small">Tes données restent sur cet appareil. Exporte-les en JSON pour les transférer vers un autre appareil (téléphone ↔ ordinateur), ou synchronise automatiquement si l'appli est servie par le serveur local du PC (même Wi-Fi).</p>
+      <div id="host-info" class="small" style="background:var(--orange-light);border-radius:10px;padding:10px 12px;margin-bottom:10px">🖥️ Adresse de cet ordinateur : chargement…</div>
       <div class="btn-row">
         <button class="btn secondary" id="btn-export-all-data">⬇ Exporter mes données</button>
         <button class="btn secondary" id="btn-import-data">⬆ Importer un fichier…</button>
         <button class="btn" id="btn-sync">🔄 Synchroniser</button>
       </div>
+      <div class="field" style="margin-top:10px">
+        <label for="sync-url">URL du serveur de synchro (vide = ce serveur-ci)</label>
+        <input type="text" id="sync-url" placeholder="ex. http://192.168.0.7:8765/api/sync  ou  https://xxxx.workers.dev/api/sync" value="${esc(localStorage.getItem('cu_sync_url') || '')}">
+      </div>
       <input type="file" id="file-import" accept="application/json,.json" style="display:none">
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3>🔒 Verrouillage par code PIN</h3>
+      <p class="muted small">Un code PIN verrouille l'application à chaque démarrage (les données restent locales sur l'appareil).</p>
+      <div id="pin-zone"></div>
     </div>
 
     ${last.length ? `
@@ -168,6 +314,49 @@ Routes.accueil = async function () {
   $('#btn-import-data', view).onclick = () => $('#file-import', view).click();
   $('#file-import', view).onchange = (e) => { if (e.target.files[0]) importAllFromFile(e.target.files[0]); e.target.value = ''; };
   $('#btn-sync', view).onclick = syncNow;
+  const su = $('#sync-url', view);
+  if (su) su.oninput = (e) => localStorage.setItem('cu_sync_url', e.target.value.trim());
+
+  // recherche globale
+  const gs = $('#global-search', view);
+  const gr = $('#global-results', view);
+  if (gs && gr) gs.addEventListener('input', () => renderGlobalSearch(gs.value.trim().toLowerCase(), gr, { insp, projets, avancements, data }));
+
+  // carte PIN
+  renderPinZone();
+
+  // afficher l'adresse de cet ordinateur (endpoint /api/host du serveur local)
+  (async () => {
+    const el = $('#host-info', view);
+    if (!el) return;
+    try {
+      const info = await fetchJsonUtf8('api/host');
+      if (info && (info.lan || info.pc)) {
+        const lan = info.lan || info.pc;
+        el.innerHTML = `🖥️ <strong>Cet ordinateur</strong> sert l'appli sur :<br>
+          • depuis le PC : <code>${esc(info.pc)}</code><br>
+          • depuis le réseau (téléphone) : <code id="lan-url">${esc(lan)}</code> <button type="button" class="btn ghost" id="copy-lan" style="padding:3px 10px">📋 copier</button><br>
+          • URL de synchro : <code>${esc(info.sync)}</code>`;
+        const bc = $('#copy-lan', view);
+        if (bc) bc.onclick = () => {
+          const txt = lan;
+          if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => toast('📋 copié : ' + txt));
+          else toast('À copier : ' + txt);
+        };
+        // pré-remplir le champ URL de synchro si vide
+        if (su && !su.value) { su.value = info.sync; localStorage.setItem('cu_sync_url', info.sync); }
+      } else {
+        el.innerHTML = '🖥️ Appli ouverte depuis : <code>' + esc(location.origin) + '</code>';
+      }
+    } catch (e) {
+      // hors serveur local (ex. github.io) : afficher l'hote courant
+      const h = location.hostname;
+      const isLocal = h === 'localhost' || h === '127.0.0.1';
+      el.innerHTML = isLocal
+        ? '🖥️ Appli ouverte en local : <code>' + esc(location.origin) + '</code> (l\'adresse réseau s\'affiche quand le serveur local tourne)'
+        : '🖥️ Appli ouverte depuis : <code>' + esc(location.origin) + '</code><br>URL de synchro proposée : <code>' + esc(location.origin + '/api/sync') + '</code>';
+    }
+  })();
 };
 
 function renderInspItem(r) {
@@ -177,7 +366,7 @@ function renderInspItem(r) {
     <span class="doc-ico">🦺</span>
     <span class="grow">
       <span class="title">${esc(r.header?.site || 'Site non renseigné')} — SST ${esc(r.header?.sst || '?')}</span><br>
-      <span class="meta">${esc(r.header?.technicien || '')} · ${fmtDate(r.header?.date || r.createdAt)} · ${esc(r.checklistTitle || '')}</span>
+      <span class="meta">${esc(r.header?.technicien || '')} · ${fmtDate(r.header?.date || r.createdAt)} · ${esc(r.checklistTitle || '')}${r.header?.projetNom ? ' · 📁 ' + esc(r.header.projetNom) : ''}</span>
     </span>
     ${stats.nc > 0 ? `<span class="badge ko">${stats.nc} NC</span>` : `<span class="badge ok">${stats.c} C</span>`}
   </a>`;
@@ -195,6 +384,27 @@ function computeStats(r) {
     }
   }
   return { c, nc, na, todo, total: (r.checklist?.categories || []).reduce((n, cat) => n + (cat.points || []).length, 0) };
+}
+
+/* ---------- recherche globale (accueil) ---------- */
+function renderGlobalSearch(q, container, ctx) {
+  if (!q) { container.innerHTML = ''; return; }
+  const { insp, projets, avancements, data } = ctx;
+  const docs = data.docs.filter(d => (d.title + ' ' + (d.desc || '') + ' ' + (d.tags || '')).toLowerCase().includes(q));
+  const fiches = data.fiches.filter(f => (f.title + ' ' + f.tags + ' ' + f.body.replace(/<[^>]+>/g, ' ')).toLowerCase().includes(q));
+  const pr = projets.filter(p => (p.title || '').toLowerCase().includes(q) || JSON.stringify(p.values || {}).toLowerCase().includes(q));
+  const av = avancements.filter(a => (a.title || '').toLowerCase().includes(q) || JSON.stringify(a.values || {}).toLowerCase().includes(q));
+  const ins = insp.filter(r => (r.header?.site || '').toLowerCase().includes(q) || (r.header?.projetNom || '').toLowerCase().includes(q) || JSON.stringify(r.answers || {}).toLowerCase().includes(q));
+  const sect = (label, items) => items.length ? `<h4 class="gs-sect">${label} (${items.length})</h4><div class="list" style="margin-bottom:14px">${items.join('')}</div>` : '';
+  container.innerHTML =
+    sect('📄 Documents', docs.map(d => `<a class="list-item" href="docs/${encodeURIComponent(d.file)}" target="_blank" rel="noopener"><span class="doc-ico">${d.icon || '📄'}</span><span class="grow"><span class="title">${esc(d.title)}</span><br><span class="meta">${esc(d.tags || '')}</span></span><span class="badge na">PDF</span></a>`)) +
+    sect('📝 Fiches de synthèse', fiches.map(f => `<a class="list-item" href="#/fiche/${encodeURIComponent(f.id)}"><span class="doc-ico">📝</span><span class="grow"><span class="title">${esc(f.title)}</span><br><span class="meta">${esc(f.tags || '')}</span></span></a>`)) +
+    sect('📁 Projets', pr.map(p => `<a class="list-item" href="#/projets/voir/${encodeURIComponent(p.id)}"><span class="doc-ico">📁</span><span class="grow"><span class="title">${esc(p.values?.nom || p.title || p.id)}</span><br><span class="meta">${[p.values?.ville, p.values?.etat].filter(Boolean).map(esc).join(' · ')}</span></span></a>`)) +
+    sect('🚧 Avancements', av.map(a => `<a class="list-item" href="#/avancement/voir/${encodeURIComponent(a.id)}"><span class="doc-ico">🚧</span><span class="grow"><span class="title">${esc(a.title || 'Point d\'avancement')}</span><br><span class="meta">${esc(a.values?.date || '')}</span></span></a>`)) +
+    sect('🦺 Inspections', ins.map(r => renderInspItem(r)));
+  if (!docs.length && !fiches.length && !pr.length && !av.length && !ins.length) {
+    container.innerHTML = `<div class="empty"><span class="ico">🔍</span>Aucun résultat pour « ${esc(q)} ».</div>`;
+  }
 }
 
 /* ---------- Connaissances (docs + fiches) ---------- */
@@ -304,6 +514,7 @@ Routes['inspection/remplir'] = async function () {
   const d = App.draft;
   if (!d) { location.hash = '#/inspection'; return; }
   const cl = d.checklist;
+  const projets = await DB.all('projets');
 
   const total = cl.categories.reduce((n, c) => n + c.points.length, 0);
   const done = () => Object.values(d.answers).filter(a => a && a.status).length;
@@ -337,6 +548,8 @@ Routes['inspection/remplir'] = async function () {
             <input type="text" id="f-tech" value="${esc(d.header.technicien)}" placeholder="Nom et prénom"></div>
           <div class="field"><label>Type de sous-station</label>
             <select id="f-type">${opts.join('')}</select></div>
+          <div class="field"><label>Projet lié (facultatif)</label>
+            <select id="f-projet"><option value="">— aucun projet —</option>${projets.map(p => `<option value="${esc(p.id)}" ${d.header.projetId === p.id ? 'selected' : ''}>${esc(p.values?.nom || p.id)}</option>`).join('')}</select></div>
         </div>
       </div>
 
@@ -368,6 +581,12 @@ Routes['inspection/remplir'] = async function () {
     $('#f-date').oninput = e => d.header.date = e.target.value;
     $('#f-tech').oninput = e => { d.header.technicien = e.target.value; localStorage.setItem('cu_technicien', e.target.value); };
     $('#f-type').onchange = e => d.header.type = e.target.value;
+    const fp = $('#f-projet');
+    if (fp) fp.onchange = e => {
+      d.header.projetId = e.target.value || null;
+      const p = projets.find(x => x.id === e.target.value);
+      d.header.projetNom = p ? (p.values?.nom || '') : '';
+    };
 
     // points de contrôle
     $$('.ctrl', view).forEach(el => {
@@ -487,6 +706,16 @@ function fieldHtml(f, val, projets) {
           </div>
         </div>`).join('') + `</div>`;
     }
+    case 'photos': {
+      const arr = Array.isArray(v) ? v : [];
+      return `<div class="field"><label>${lab}</label>
+        <input type="hidden" id="fld-${esc(f.id)}" value="${esc(JSON.stringify(arr))}">
+        <div class="photos" id="ph-${esc(f.id)}">
+          ${arr.map((ph, i) => `<div class="photo"><img src="${ph}" alt="photo ${i + 1}"><button type="button" class="del" title="Supprimer">✕</button></div>`).join('')}
+          <label class="add-photo" title="Ajouter une photo">＋<input class="file" type="file" accept="image/*" capture="environment" style="display:none"></label>
+        </div>
+      </div>`;
+    }
     default:
       return `<div class="field"><label>${lab}</label><input type="${esc(f.type || 'text')}" id="fld-${esc(f.id)}" ${req} value="${esc(v)}" placeholder="${esc(f.placeholder || '')}"></div>`;
   }
@@ -510,6 +739,11 @@ function readField(f) {
       if (el.value !== '' || (com && com.value !== '')) out[p] = { pct: el.value === '' ? null : Number(el.value), com: com ? com.value : '' };
     });
     return out;
+  }
+  if (f.type === 'photos') {
+    const el = $('#fld-' + f.id);
+    if (!el) return [];
+    try { const a = JSON.parse(el.value || '[]'); return Array.isArray(a) ? a : []; } catch { return []; }
   }
   const el = $('#fld-' + f.id);
   if (!el) return '';
@@ -646,16 +880,19 @@ function importAllFromFile(file) {
 }
 
 async function syncNow() {
+  // URL de synchro personnalisable (PC en Wi-Fi, worker HTTPS…), sinon origine actuelle
+  const custom = (localStorage.getItem('cu_sync_url') || '').trim();
+  const base = (custom || (location.origin + '/api/sync')).replace(/\/+$/, '');
   let res;
   try {
     const payload = await collectAll();
-    res = await fetch('api/sync', {
+    res = await fetch(base, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
   } catch (e) {
-    toast('❌ Serveur de synchro injoignable — dispo quand l\'appli est servie par le PC (même Wi-Fi), sinon utiliser Exporter/Importer');
+    toast('❌ Synchro impossible vers ' + base + ' — vérifie l\'URL (PC allumé, même Wi-Fi) ou utilise Exporter/Importer');
     return;
   }
   if (!res.ok) { toast('❌ Synchro refusée (HTTP ' + res.status + ') — API présente uniquement sur le serveur local'); return; }
@@ -679,6 +916,26 @@ function formReadView(defId, id) {
       const ps = await DB.all('projets');
       projetNom = ps.find(p => p.id === rec.values.projet)?.values?.nom || rec.values.projet;
     }
+    // inspections liées à ce projet
+    let linkedHtml = '';
+    if (def.id === 'projet') {
+      const inspAll = await DB.all('inspections');
+      const linked = inspAll.filter(r => r.header && r.header.projetId === rec.id);
+      linkedHtml = `<h3 style="margin:18px 0 10px">🦺 Inspections liées à ce projet (${linked.length})</h3>` +
+        (linked.length
+          ? `<div class="list">${linked.map(renderInspItem).join('')}</div>`
+          : '<p class="muted small">Aucune inspection liée pour l\'instant — choisis ce projet dans l\'en-tête d\'une inspection SST.</p>');
+    }
+    // QR code pour ouvrir la fiche projet sur un autre appareil
+    let qrHtml = '';
+    if (def.id === 'projet') {
+      const url = location.origin + location.pathname + '#/projets/voir/' + encodeURIComponent(rec.id);
+      qrHtml = `<div class="card no-print" style="margin-top:14px">
+        <h3>📱 Ouvrir cette fiche sur un autre appareil</h3>
+        <p class="muted small">Flash ce QR code avec un téléphone (même réseau / même appli) pour ouvrir directement cette fiche :</p>
+        <div class="qr-wrap"><canvas id="qr-canvas" width="200" height="200"></canvas><div class="small muted qr-url">${esc(url)}</div></div>
+      </div>`;
+    }
     const rowsHtml = def.fields.map(f => {
       let v = rec.values[f.id];
       if (f.type === 'select-projets') v = projetNom || v || '—';
@@ -694,6 +951,13 @@ function formReadView(defId, id) {
         const postes = v && Object.keys(v).length ? Object.entries(v).map(([p, x]) => `<tr><td>${esc(p)}</td><td style="width:70px;text-align:right">${x.pct != null ? esc(x.pct) + ' %' : '—'}</td><td>${esc(x.com || '')}</td></tr>`).join('') : '';
         return `<tr><th colspan="2" style="background:var(--orange-light)">${esc(f.label)}</th></tr>` + (postes || '<tr><td colspan="2" class="muted">—</td></tr>');
       }
+      if (f.type === 'photos') {
+        const arr = Array.isArray(v) ? v : [];
+        const inner = arr.length
+          ? '<div class="photos">' + arr.map((ph, i) => `<div class="photo" style="width:110px;height:110px"><img src="${ph}" alt="photo ${i + 1}"></div>`).join('') + '</div>'
+          : '<span class="muted">—</span>';
+        return `<tr><th style="width:40%">${esc(f.label)}</th><td>${inner}</td></tr>`;
+      }
       const disp = (v === null || v === undefined || v === '') ? '<span class="muted">—</span>' : esc(v);
       return `<tr><th style="width:40%">${esc(f.label)}</th><td>${disp}</td></tr>`;
     }).join('');
@@ -705,12 +969,37 @@ function formReadView(defId, id) {
       <div class="card">
         <table class="pv">${rowsHtml}</table>
       </div>
+      ${qrHtml}
+      ${linkedHtml}
       <div class="btn-row no-print">
         <a class="btn" href="#/${listRoute}/nouveau/${encodeURIComponent(rec.id)}">✏️ Modifier</a>
+        <button class="btn secondary" id="btn-print">🖨 Imprimer / PDF</button>
         <button class="btn secondary" id="btn-export">⬇ Exporter (JSON)</button>
         <button class="btn danger" id="btn-del">🗑 Supprimer</button>
       </div>
     `;
+    $('#btn-print', view).onclick = () => window.print();
+    // QR code de la fiche projet
+    if (def.id === 'projet' && window.qrcode) {
+      try {
+        const qr = qrcode(0, 'M');
+        qr.addData(location.origin + location.pathname + '#/projets/voir/' + encodeURIComponent(rec.id));
+        qr.make();
+        const canvas = $('#qr-canvas', view);
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          const n = qr.getModuleCount();
+          const size = canvas.width;
+          const cell = size / n;
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, size, size);
+          ctx.fillStyle = '#000000';
+          for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+            if (qr.isDark(r, c)) ctx.fillRect(Math.floor(c * cell), Math.floor(r * cell), Math.ceil(cell), Math.ceil(cell));
+          }
+        }
+      } catch (e) { console.warn('QR:', e); }
+    }
     $('#btn-export', view).onclick = () => exportJson(formTitleOf(def, rec.values).replace(/[^a-z0-9]+/gi, '_') + '.json', rec);
     $('#btn-del', view).onclick = async () => {
       if (confirm('Supprimer définitivement cet enregistrement ?')) {
@@ -774,6 +1063,50 @@ function formEditView(defId, existingId) {
         if (first) first.focus();
       };
     }
+
+    // champs "photos" : galerie de photos redimensionnées en JPEG (comme pour l'inspection)
+    def.fields.filter(f => f.type === 'photos').forEach(f => {
+      const box = $('#ph-' + f.id, view);
+      const hidden = $('#fld-' + f.id, view);
+      if (!box || !hidden) return;
+      let arr = [];
+      try { const a = JSON.parse(hidden.value || '[]'); if (Array.isArray(a)) arr = a; } catch (e) { arr = []; }
+      const sync = () => { hidden.value = JSON.stringify(arr); };
+      const renderGal = () => {
+        $$('.photo', box).forEach(n => n.remove());
+        arr.forEach((ph, i) => {
+          const d = document.createElement('div');
+          d.className = 'photo';
+          d.innerHTML = `<img src="${ph}" alt="photo ${i + 1}"><button type="button" class="del" title="Supprimer">✕</button>`;
+          $('.del', d).onclick = () => { arr.splice(i, 1); sync(); renderGal(); };
+          box.insertBefore(d, box.querySelector('.add-photo'));
+        });
+      };
+      const file = $('.file', box);
+      if (file) file.onchange = () => {
+        const f0 = file.files[0];
+        if (!f0) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const max = 1280;
+            const scale = Math.min(1, max / Math.max(img.width, img.height));
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+            arr.push(canvas.toDataURL('image/jpeg', 0.82));
+            sync();
+            renderGal();
+          };
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(f0);
+        file.value = '';
+      };
+      renderGal();
+    });
 
     $('#btn-cancel', view).onclick = () => location.hash = '#/' + listRoute;
     $('#btn-save', view).onclick = async () => {
@@ -874,4 +1207,8 @@ async function router() {
 }
 
 window.addEventListener('hashchange', router);
+initTheme();
+const themeBtn = $('#btn-theme');
+if (themeBtn) themeBtn.onclick = () => applyTheme(!document.documentElement.classList.contains('dark'));
+initLock();
 router();

@@ -28,6 +28,7 @@
         { "id": "mail", "label": "E-mail", "type": "text", "placeholder": "prenom.nom@…" }
       ] },
       { "id": "documents", "label": "Documents de référence (PDF de la base)", "type": "textarea", "placeholder": "Ex. Guide des préconisations rev.3, STG Sous-Stations, Check-list mars 2023…" },
+      { "id": "photos", "label": "Photos", "type": "photos" },
       { "id": "remarques", "label": "Remarques", "type": "textarea" }
     ]
   },
@@ -57,6 +58,7 @@
       ] },
       { "id": "blocages", "label": "Points bloquants / aléas", "type": "textarea", "placeholder": "Ce qui bloque, pourquoi, depuis quand…" },
       { "id": "actions", "label": "Prochaines actions (quoi, qui, pour quand)", "type": "textarea" },
+      { "id": "photos", "label": "Photos du chantier", "type": "photos" },
       { "id": "remarques", "label": "Remarques diverses", "type": "textarea" }
     ]
   }

@@ -217,6 +217,98 @@ table.pv th { background: #f5f5f4; font-weight: 600; }
 
 /* ---------- impression rapport ---------- */
 @media print {
-  #topbar, #tabbar, .no-print { display: none !important; }
+  #topbar, #tabbar, .no-print, #lock-screen { display: none !important; }
   body { padding-bottom: 0; background: #fff; }
+  .card, .list-item, .ctrl, tr { break-inside: avoid; }
+  .photos .photo { width: 90px; height: 90px; }
+  a { color: #000; }
 }
+
+/* ---------- barre du haut : bloc de droite ---------- */
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+.icon-btn {
+  border: none; background: rgba(255,255,255,.18); color: #fff;
+  width: 34px; height: 34px; border-radius: 50%; font-size: 1rem; line-height: 1;
+}
+.icon-btn:hover { background: rgba(255,255,255,.3); }
+
+/* ---------- tableau de bord (accueil) ---------- */
+.dash { margin-bottom: 16px; }
+.dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; }
+.dash-grid .stat {
+  background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+  padding: 10px; text-align: center; display: flex; flex-direction: column; gap: 2px;
+}
+.dash-grid .stat .n { font-size: 1.4rem; font-weight: 800; color: var(--orange-dark); }
+.dash-grid .stat .l { font-size: .72rem; color: var(--muted); }
+
+/* ---------- recherche globale ---------- */
+.gs-sect { margin: 14px 0 8px; font-size: .85rem; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
+
+/* ---------- QR code ---------- */
+.qr-wrap { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
+.qr-wrap canvas { border: 1px solid var(--line); border-radius: 10px; background: #fff; padding: 6px; }
+.qr-url { word-break: break-all; max-width: 320px; }
+
+/* ---------- écran de verrouillage PIN ---------- */
+.lock-screen {
+  position: fixed; inset: 0; z-index: 100;
+  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.lock-screen.hidden { display: none; }
+.lock-box {
+  background: var(--card); color: var(--ink); border-radius: 18px; box-shadow: var(--shadow);
+  padding: 28px 24px; width: 100%; max-width: 340px; text-align: center;
+}
+.lock-box h2 { margin: 10px 0 4px; font-size: 1.2rem; }
+.lock-icon { width: 72px; height: 72px; border-radius: 16px; }
+.lock-box input {
+  width: 100%; margin: 14px 0 10px; padding: 12px; font-size: 1.3rem; text-align: center;
+  letter-spacing: 6px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink);
+}
+.lock-box input:focus { outline: 2px solid var(--orange); }
+.lock-error { color: var(--ko); font-size: .8rem; margin: 8px 0 0; }
+.lock-error.hidden { display: none; }
+
+/* ============================================================
+   MODE SOMBRE
+   ============================================================ */
+html.dark {
+  --orange: #ea580c;
+  --orange-dark: #c2410c;
+  --orange-light: #3a2417;
+  --ink: #e7e5e4;
+  --muted: #a8a29e;
+  --bg: #141210;
+  --card: #211d1a;
+  --line: #35302b;
+  --ok: #4ade80;
+  --ko: #f87171;
+  --na: #d6d3d1;
+  --warn: #fbbf24;
+  --shadow: 0 1px 3px rgba(0,0,0,.4), 0 4px 14px rgba(0,0,0,.3);
+}
+html.dark .field input, html.dark .field select, html.dark .field textarea,
+html.dark .search, html.dark .lock-box input {
+  background: #2b2622; color: var(--ink);
+}
+html.dark .btn.secondary { background: var(--card); }
+html.dark .btn.ghost { background: transparent; }
+html.dark #tabbar { background: var(--card); }
+html.dark .rep { background: var(--card); }
+html.dark .add-photo { background: var(--card); }
+html.dark .c-bloc { background: var(--card) !important; }
+html.dark table.pv th { background: #2b2622; }
+html.dark .fiche th { background: var(--orange-light); }
+html.dark .dash-grid .stat { background: #2b2622; }
+html.dark .badge.ok { background: rgba(74,222,128,.15); }
+html.dark .badge.ko { background: rgba(248,113,113,.15); }
+html.dark .badge.na { background: rgba(214,211,209,.15); }
+html.dark .badge.warn { background: rgba(251,191,36,.15); }
+html.dark .rep.sel-c { background: rgba(74,222,128,.18); }
+html.dark .rep.sel-nc { background: rgba(248,113,113,.18); }
+html.dark .rep.sel-na { background: rgba(214,211,209,.18); }
+html.dark .toast { background: #e7e5e4; color: #1c1917; }
+html.dark .qr-wrap canvas { background: #fff; }
+html.dark .seg button { background: var(--card); }

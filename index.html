@@ -21,7 +21,10 @@
       <span class="subtitle">Connaissances & outils terrain</span>
     </div>
   </div>
-  <div id="net-status" class="net-status" title="État de la connexion">…</div>
+  <div class="topbar-right">
+    <div id="net-status" class="net-status" title="État de la connexion">…</div>
+    <button id="btn-theme" class="icon-btn" type="button" title="Mode sombre / clair">🌙</button>
+  </div>
 </header>
 
 <main id="view" aria-live="polite"><!-- rendu par app.js --></main>
@@ -30,6 +33,18 @@
 
 <div id="toast" class="toast hidden"></div>
 
+<div id="lock-screen" class="lock-screen hidden">
+  <div class="lock-box">
+    <img src="icons/icon-192.png" alt="" class="lock-icon">
+    <h2>Chauffage Urbain</h2>
+    <p class="muted small">Application verrouillée — entre le code PIN.</p>
+    <input id="lock-pin" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="••••" maxlength="8">
+    <button id="lock-ok" class="btn big" type="button">Déverrouiller</button>
+    <p id="lock-error" class="lock-error hidden">Code incorrect.</p>
+  </div>
+</div>
+
+<script src="lib/qrcode.min.js"></script>
 <script src="app.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
