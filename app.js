@@ -288,12 +288,16 @@ Routes.accueil = async function () {
       <div class="btn-row">
         <button class="btn secondary" id="btn-export-all-data">⬇ Exporter mes données</button>
         <button class="btn secondary" id="btn-import-data">⬆ Importer un fichier…</button>
+        <button class="btn secondary" id="btn-test-sync">🧪 Tester la connexion</button>
         <button class="btn" id="btn-sync">🔄 Synchroniser</button>
       </div>
       <div class="field" style="margin-top:10px">
         <label for="sync-url">URL du serveur de synchro (vide = ce serveur-ci)</label>
-        <input type="text" id="sync-url" placeholder="ex. http://192.168.0.7:8765/api/sync  ou  https://xxxx.workers.dev/api/sync" value="${esc(localStorage.getItem('cu_sync_url') || '')}">
+        <input type="text" id="sync-url" placeholder="ex. http://192.168.0.7:8765  (l'appli ajoute /api/sync tout seul)" value="${esc(localStorage.getItem('cu_sync_url') || '')}">
+        <div id="sync-test-result" class="small" style="margin-top:6px"></div>
       </div>
+      <p class="muted small" style="margin-top:8px">📱 <strong>Depuis le téléphone :</strong> même Wi-Fi que le PC → ouvre directement <code>http://&lt;IP-du-PC&gt;:8765/</code> dans Safari (l'adresse s'affiche dans la carte 🖥️ ci-dessus) → le champ URL se pré-remplit tout seul → « 🧪 Tester » puis « 🔄 Synchroniser ».<br>
+      <em>Sur le téléphone, ne passe pas par la version https (GitHub Pages) : Safari bloque les appels vers un PC en http depuis une page https.</em> Si le pare-feu Windows demande l'autorisation, clique « Autoriser l'accès ». En cas de blocage : « ⬇ Exporter mes données » sur un appareil, « ⬆ Importer » sur l'autre.</p>
       <input type="file" id="file-import" accept="application/json,.json" style="display:none">
     </div>
 
@@ -314,6 +318,8 @@ Routes.accueil = async function () {
   $('#btn-import-data', view).onclick = () => $('#file-import', view).click();
   $('#file-import', view).onchange = (e) => { if (e.target.files[0]) importAllFromFile(e.target.files[0]); e.target.value = ''; };
   $('#btn-sync', view).onclick = syncNow;
+  const bts = $('#btn-test-sync', view);
+  if (bts) bts.onclick = testSyncUrl;
   const su = $('#sync-url', view);
   if (su) su.oninput = (e) => localStorage.setItem('cu_sync_url', e.target.value.trim());
 
@@ -879,10 +885,42 @@ function importAllFromFile(file) {
     .catch(e => toast('❌ Import impossible : ' + e.message));
 }
 
+/* Normalise l'URL de synchro : ajoute /api/sync si manquante (ex. http://192.168.0.7:8765 -> .../api/sync) */
+function normalizeSyncUrl(raw) {
+  let u = (raw || '').trim();
+  if (!u) return location.origin.replace(/\/+$/, '') + '/api/sync';
+  u = u.replace(/\/+$/, '');
+  if (!/\/api\/sync$/i.test(u)) u += '/api/sync';
+  return u;
+}
+
+async function testSyncUrl() {
+  const base = normalizeSyncUrl(localStorage.getItem('cu_sync_url'));
+  const hostUrl = base.replace(/\/api\/sync$/i, '/api/host');
+  const el = $('#sync-test-result');
+  const say = (html, ok) => { if (el) { el.innerHTML = html; el.style.color = ok ? 'var(--ok)' : 'var(--ko)'; } };
+  say('🧪 Test de <code>' + esc(hostUrl) + '</code>…', true);
+  try {
+    const res = await fetch(hostUrl, { cache: 'no-store' });
+    if (!res.ok) { say('❌ Réponse HTTP ' + res.status + ' — le serveur ne répond pas sur cette URL (elle doit finir par <code>/api/host</code> ou <code>/api/sync</code>).', false); return; }
+    const info = await res.json();
+    say('✅ <strong>PC joignable</strong> : <code>' + esc(info.ip || '?') + ':' + esc(info.port || '?') + '</code> — tu peux lancer « 🔄 Synchroniser ».', true);
+  } catch (e) {
+    say('❌ PC injoignable (' + esc(e.message || 'erreur réseau') + '). Vérifie :<br>' +
+      '• le téléphone est sur le <strong>même Wi-Fi</strong> que le PC (pas en 4G/5G)<br>' +
+      '• le PC est allumé et le serveur tourne (raccourci bureau « Appli Chauffage Urbain »)<br>' +
+      '• le <strong>pare-feu Windows</strong> a autorisé le port (popup « Autoriser l\'accès »)<br>' +
+      '• l\'IP du PC n\'a pas changé (DHCP) — la recopier depuis la carte 🖥️ ci-dessus<br>' +
+      '• sur le téléphone, ouvrir directement <code>http://&lt;IP&gt;:' + esc((new URL(base)).port || '8765') + '/</code> (pas la version https GitHub Pages : Safari bloque les appels http depuis une page https)', false);
+  }
+}
+
 async function syncNow() {
-  // URL de synchro personnalisable (PC en Wi-Fi, worker HTTPS…), sinon origine actuelle
-  const custom = (localStorage.getItem('cu_sync_url') || '').trim();
-  const base = (custom || (location.origin + '/api/sync')).replace(/\/+$/, '');
+  // URL de synchro personnalisable (PC en Wi-Fi), sinon origine actuelle ; /api/sync ajouté si besoin
+  const base = normalizeSyncUrl(localStorage.getItem('cu_sync_url'));
+  const su = $('#sync-url');
+  if (su && su.value.trim() !== base) su.value = base;
+  localStorage.setItem('cu_sync_url', base);
   let res;
   try {
     const payload = await collectAll();
@@ -892,10 +930,10 @@ async function syncNow() {
       body: JSON.stringify(payload),
     });
   } catch (e) {
-    toast('❌ Synchro impossible vers ' + base + ' — vérifie l\'URL (PC allumé, même Wi-Fi) ou utilise Exporter/Importer');
+    toast('❌ Synchro impossible vers ' + base + ' — clique d\'abord sur 🧪 Tester (même Wi-Fi, pare-feu, PC allumé), sinon utilise Exporter/Importer');
     return;
   }
-  if (!res.ok) { toast('❌ Synchro refusée (HTTP ' + res.status + ') — API présente uniquement sur le serveur local'); return; }
+  if (!res.ok) { toast('❌ Synchro refusée (HTTP ' + res.status + ') depuis ' + base + ' — l\'URL doit finir par /api/sync'); return; }
   const merged = await res.json();
   const r = await applyPayload(merged);
   toast(`🔄 Synchro OK : ${r.upsert} enregistrement(s) reçus/mis à jour, ${r.suppr} suppression(s)`);
