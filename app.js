@@ -1,5 +1,5 @@
 /* ============================================================
-   Chauffage Urbain — appli terrain (PWA hors-ligne)
+   Chauffage Urbain ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â appli terrain (PWA hors-ligne)
    ============================================================ */
 'use strict';
 
@@ -30,20 +30,20 @@ function esc(s) {
 function netStatus() {
   const el = $('#net-status');
   const update = () => {
-    if (navigator.onLine) { el.textContent = '● en ligne'; el.classList.remove('off'); }
-    else { el.textContent = '▲ hors-ligne — tout reste dispo'; el.classList.add('off'); }
+    if (navigator.onLine) { el.textContent = 'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬ÂÃƒâ€šÃ‚Â en ligne'; el.classList.remove('off'); }
+    else { el.textContent = 'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â² hors-ligne ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â tout reste dispo'; el.classList.add('off'); }
   };
   window.addEventListener('online', update);
   window.addEventListener('offline', update);
   update();
 }
 
-/* ---------- thème sombre / clair ---------- */
+/* ---------- thÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨me sombre / clair ---------- */
 function applyTheme(dark) {
   document.documentElement.classList.toggle('dark', dark);
   localStorage.setItem('cu_dark', dark ? '1' : '0');
   const b = $('#btn-theme');
-  if (b) b.textContent = dark ? '☀️' : '🌙';
+  if (b) b.textContent = dark ? 'ÃƒÆ’Ã‚Â¢Ãƒâ€¹Ã…â€œÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â' : 'ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã¢â‚¬â„¢ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢';
 }
 function initTheme() {
   const saved = localStorage.getItem('cu_dark');
@@ -55,7 +55,7 @@ function initTheme() {
 
 /* ---------- verrouillage par code PIN ---------- */
 function pinHash(pin) {
-  // hash local simple (djb2) — verrou d'accès, pas du chiffrement
+  // hash local simple (djb2) ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â verrou d'accÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨s, pas du chiffrement
   let h = 5381;
   const s = 'cu|' + pin;
   for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
@@ -91,31 +91,31 @@ function renderPinZone() {
   if (!localStorage.getItem('cu_pin')) {
     zone.innerHTML = `
       <div class="grid2">
-        <div class="field"><label>Nouveau code PIN (4 à 8 chiffres)</label><input type="password" id="pin-a" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off"></div>
+        <div class="field"><label>Nouveau code PIN (4 ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  8 chiffres)</label><input type="password" id="pin-a" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off"></div>
         <div class="field"><label>Confirmer le code</label><input type="password" id="pin-b" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off"></div>
       </div>
-      <div class="btn-row"><button class="btn" id="pin-set" type="button">🔒 Activer le verrouillage</button></div>
-      <p class="small muted" style="margin:6px 0 0">Le code n'est stocké que sur cet appareil ; l'appli se verrouille à chaque démarrage.</p>`;
+      <div class="btn-row"><button class="btn" id="pin-set" type="button">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ Activer le verrouillage</button></div>
+      <p class="small muted" style="margin:6px 0 0">Le code n'est stockÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© que sur cet appareil ; l'appli se verrouille ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  chaque dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©marrage.</p>`;
     $('#pin-set', zone).onclick = () => {
       const a = $('#pin-a', zone).value, b = $('#pin-b', zone).value;
-      if (!/^[0-9]{4,8}$/.test(a)) return toast('❌ Le code doit faire 4 à 8 chiffres');
-      if (a !== b) return toast('❌ Les deux codes ne correspondent pas');
+      if (!/^[0-9]{4,8}$/.test(a)) return toast('ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ Le code doit faire 4 ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  8 chiffres');
+      if (a !== b) return toast('ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ Les deux codes ne correspondent pas');
       localStorage.setItem('cu_pin', pinHash(a));
-      toast('🔒 Verrouillage activé');
+      toast('ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ Verrouillage activÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©');
       renderPinZone();
     };
   } else {
     zone.innerHTML = `
-      <p class="small">✅ Un code PIN est actif : l'application se verrouille au démarrage.</p>
+      <p class="small">ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ Un code PIN est actif : l'application se verrouille au dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©marrage.</p>
       <div class="btn-row">
-        <button class="btn secondary" id="pin-change" type="button">✏️ Modifier le code</button>
-        <button class="btn danger" id="pin-off" type="button">❌ Désactiver</button>
+        <button class="btn secondary" id="pin-change" type="button">ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â Modifier le code</button>
+        <button class="btn danger" id="pin-off" type="button">ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ DÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©sactiver</button>
       </div>
       <div id="pin-change-zone"></div>`;
     $('#pin-off', zone).onclick = () => {
-      if (confirm('Désactiver le verrouillage par code PIN ?')) {
+      if (confirm('DÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©sactiver le verrouillage par code PIN ?')) {
         localStorage.removeItem('cu_pin');
-        toast('Verrouillage désactivé');
+        toast('Verrouillage dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©sactivÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©');
         renderPinZone();
       }
     };
@@ -124,15 +124,15 @@ function renderPinZone() {
       cz.innerHTML = `
         <div class="grid2">
           <div class="field"><label>Code actuel</label><input type="password" id="pin-old" inputmode="numeric" maxlength="8" autocomplete="off"></div>
-          <div class="field"><label>Nouveau code (4 à 8 chiffres)</label><input type="password" id="pin-new" inputmode="numeric" maxlength="8" autocomplete="off"></div>
+          <div class="field"><label>Nouveau code (4 ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  8 chiffres)</label><input type="password" id="pin-new" inputmode="numeric" maxlength="8" autocomplete="off"></div>
         </div>
-        <div class="btn-row"><button class="btn" id="pin-save" type="button">💾 Enregistrer le nouveau code</button></div>`;
+        <div class="btn-row"><button class="btn" id="pin-save" type="button">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢Ãƒâ€šÃ‚Â¾ Enregistrer le nouveau code</button></div>`;
       $('#pin-save', cz).onclick = () => {
         const old = $('#pin-old', cz).value, nw = $('#pin-new', cz).value;
-        if (pinHash(old) !== localStorage.getItem('cu_pin')) return toast('❌ Code actuel incorrect');
-        if (!/^[0-9]{4,8}$/.test(nw)) return toast('❌ Le code doit faire 4 à 8 chiffres');
+        if (pinHash(old) !== localStorage.getItem('cu_pin')) return toast('ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ Code actuel incorrect');
+        if (!/^[0-9]{4,8}$/.test(nw)) return toast('ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ Le code doit faire 4 ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  8 chiffres');
         localStorage.setItem('cu_pin', pinHash(nw));
-        toast('✅ Code modifié');
+        toast('ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ Code modifiÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©');
         renderPinZone();
       };
     };
@@ -189,8 +189,8 @@ const DB = {
   }
 };
 
-/* ---------- chargement des données ---------- */
-/* Décodage UTF-8 forcé : certains hébergeurs servent les .json sans charset */
+/* ---------- chargement des donnÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©es ---------- */
+/* DÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©codage UTF-8 forcÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© : certains hÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©bergeurs servent les .json sans charset */
 async function fetchJsonUtf8(url) {
   const buf = await (await fetch(url)).arrayBuffer();
   return JSON.parse(new TextDecoder('utf-8').decode(buf));
@@ -206,7 +206,7 @@ async function loadData() {
   return loadData._p;
 }
 
-/* ---------- état de l'app ---------- */
+/* ---------- ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©tat de l'app ---------- */
 const App = {
   data: null,
   draft: null, // inspection en cours de remplissage
@@ -226,11 +226,11 @@ Routes.accueil = async function () {
   const avancements = await DB.all('avancements');
   const last = insp.slice(0, 3);
 
-  // ---- données du tableau de bord ----
+  // ---- donnÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©es du tableau de bord ----
   let ncTotal = 0;
   for (const r of insp) ncTotal += computeStats(r).nc;
   const etats = {};
-  for (const p of projets) { const e = p.values?.etat || 'Non renseigné'; etats[e] = (etats[e] || 0) + 1; }
+  for (const p of projets) { const e = p.values?.etat || 'Non renseignÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©'; etats[e] = (etats[e] || 0) + 1; }
   // avancement moyen : dernier point d'avancement de chaque projet
   const lastAvByProjet = {};
   for (const a of avancements) {
@@ -247,30 +247,30 @@ Routes.accueil = async function () {
 
   const descs = {
     accueil: "Vue d'ensemble de l'application",
-    projets: `${projets.length} fiche(s) projet — retrouver toutes les infos d'un chantier`,
+    projets: `${projets.length} fiche(s) projet ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â retrouver toutes les infos d'un chantier`,
     avancement: `${avancements.length} point(s) d'avancement des travaux`,
-    connaissances: `${data.docs.length} documents + ${data.fiches.length} fiches de synthèse, hors-ligne`,
-    inspection: 'Check-list de sous-station (mars 2023) à remplir sur le terrain',
-    rapports: `${insp.length} inspection(s) enregistrée(s) — voir / exporter les PV`,
+    connaissances: `${data.docs.length} documents + ${data.fiches.length} fiches de synthÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨se, hors-ligne`,
+    inspection: 'Check-list de sous-station (mars 2023) ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  remplir sur le terrain',
+    rapports: `${insp.length} inspection(s) enregistrÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©e(s) ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â voir / exporter les PV`,
   };
 
   view.innerHTML = `
     <h2 class="page-title">Bienvenue</h2>
-    <p class="page-sub">Ta base de connaissances chauffage urbain et tes outils de terrain, même sans réseau.</p>
+    <p class="page-sub">Ta base de connaissances chauffage urbain et tes outils de terrain, mÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªme sans rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©seau.</p>
 
-    <input id="global-search" class="search" type="search" placeholder="🔍 Rechercher partout : documents, fiches, projets, avancements, inspections…">
+    <input id="global-search" class="search" type="search" placeholder="ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â Rechercher partout : documents, fiches, projets, avancements, inspectionsÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦">
     <div id="global-results"></div>
 
     <div class="card dash">
-      <h3>📊 Tableau de bord</h3>
+      <h3>ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒâ€¦Ã‚Â  Tableau de bord</h3>
       <div class="dash-grid">
         <div class="stat"><span class="n">${insp.length}</span><span class="l">inspection(s)</span></div>
-        <div class="stat"><span class="n" style="color:var(--ko)">${ncTotal}</span><span class="l">non-conformité(s)</span></div>
+        <div class="stat"><span class="n" style="color:var(--ko)">${ncTotal}</span><span class="l">non-conformitÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©(s)</span></div>
         <div class="stat"><span class="n">${projets.length}</span><span class="l">projet(s)</span></div>
-        <div class="stat"><span class="n">${avMoyen !== null ? avMoyen + ' %' : '—'}</span><span class="l">avancement moyen</span></div>
+        <div class="stat"><span class="n">${avMoyen !== null ? avMoyen + ' %' : 'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â'}</span><span class="l">avancement moyen</span></div>
       </div>
-      ${Object.keys(etats).length ? `<p class="small muted" style="margin:8px 0 0">Projets par état : ${Object.entries(etats).map(([e, n]) => esc(e) + ' : ' + n).join(' · ')}</p>` : ''}
-      ${mes.length ? `<p class="small" style="margin:6px 0 0">🚀 Prochaines mises en service : ${mes.map(p => `<a href="#/projets/voir/${encodeURIComponent(p.id)}">${esc(p.values.nom || 'Projet')}</a> — ${esc(p.values.dateMES)}`).join(' · ')}</p>` : ''}
+      ${Object.keys(etats).length ? `<p class="small muted" style="margin:8px 0 0">Projets par ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©tat : ${Object.entries(etats).map(([e, n]) => esc(e) + ' : ' + n).join(' ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ')}</p>` : ''}
+      ${mes.length ? `<p class="small" style="margin:6px 0 0">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â¡ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ Prochaines mises en service : ${mes.map(p => `<a href="#/projets/voir/${encodeURIComponent(p.id)}">${esc(p.values.nom || 'Projet')}</a> ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ${esc(p.values.dateMES)}`).join(' ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ')}</p>` : ''}
     </div>
 
     <div class="tiles">
@@ -282,33 +282,33 @@ Routes.accueil = async function () {
     </div>
 
     <div class="card" style="margin-top:18px">
-      <h3>🔄 Synchronisation & sauvegarde</h3>
-      <p class="muted small">Tes données restent sur cet appareil. Exporte-les en JSON pour les transférer vers un autre appareil (téléphone ↔ ordinateur), ou synchronise automatiquement si l'appli est servie par le serveur local du PC (même Wi-Fi).</p>
-      <div id="host-info" class="small" style="background:var(--orange-light);border-radius:10px;padding:10px 12px;margin-bottom:10px">🖥️ Adresse de cet ordinateur : chargement…</div>
+      <h3>ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾ Synchronisation & sauvegarde</h3>
+      <p class="muted small">Tes donnÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©es restent sur cet appareil. Exporte-les en JSON pour les transfÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©rer vers un autre appareil (tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©lÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©phone ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ordinateur), ou synchronise automatiquement si l'appli est servie par le serveur local du PC (mÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªme Wi-Fi).</p>
+      <div id="host-info" class="small" style="background:var(--orange-light);border-radius:10px;padding:10px 12px;margin-bottom:10px">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â Adresse de cet ordinateur : chargementÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦</div>
       <div class="btn-row">
-        <button class="btn secondary" id="btn-export-all-data">⬇ Exporter mes données</button>
-        <button class="btn secondary" id="btn-import-data">⬆ Importer un fichier…</button>
-        <button class="btn secondary" id="btn-test-sync">🧪 Tester la connexion</button>
-        <button class="btn" id="btn-sync">🔄 Synchroniser</button>
+        <button class="btn secondary" id="btn-export-all-data">ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¡ Exporter mes donnÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©es</button>
+        <button class="btn secondary" id="btn-import-data">ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â  Importer un fichierÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦</button>
+        <button class="btn secondary" id="btn-test-sync">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€šÃ‚Â§Ãƒâ€šÃ‚Âª Tester la connexion</button>
+        <button class="btn" id="btn-sync">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾ Synchroniser</button>
       </div>
       <div class="field" style="margin-top:10px">
         <label for="sync-url">URL du serveur de synchro (vide = ce serveur-ci)</label>
         <input type="text" id="sync-url" placeholder="ex. http://192.168.0.7:8765  (l'appli ajoute /api/sync tout seul)" value="${esc(localStorage.getItem('cu_sync_url') || '')}">
         <div id="sync-test-result" class="small" style="margin-top:6px"></div>
       </div>
-      <p class="muted small" style="margin-top:8px">📱 <strong>Depuis le téléphone :</strong> même Wi-Fi que le PC → ouvre directement <code>http://&lt;IP-du-PC&gt;:8765/</code> dans Safari (l'adresse s'affiche dans la carte 🖥️ ci-dessus) → le champ URL se pré-remplit tout seul → « 🧪 Tester » puis « 🔄 Synchroniser ».<br>
-      <em>Sur le téléphone, ne passe pas par la version https (GitHub Pages) : Safari bloque les appels vers un PC en http depuis une page https.</em> Si le pare-feu Windows demande l'autorisation, clique « Autoriser l'accès ». En cas de blocage : « ⬇ Exporter mes données » sur un appareil, « ⬆ Importer » sur l'autre.</p>
+      <p class="muted small" style="margin-top:8px">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒâ€šÃ‚Â± <strong>Depuis le tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©lÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©phone :</strong> mÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªme Wi-Fi que le PC ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ ouvre directement <code>http://&lt;IP-du-PC&gt;:8765/</code> dans Safari (l'adresse s'affiche dans la carte ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â ci-dessus) ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ le champ URL se prÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©-remplit tout seul ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â« ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€šÃ‚Â§Ãƒâ€šÃ‚Âª Tester ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â» puis ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â« ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾ Synchroniser ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â».<br>
+      <em>Sur le tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©lÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©phone, ne passe pas par la version https (GitHub Pages) : Safari bloque les appels vers un PC en http depuis une page https.</em> Si le pare-feu Windows demande l'autorisation, clique ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â« Autoriser l'accÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨s ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â». En cas de blocage : ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â« ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¡ Exporter mes donnÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©es ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â» sur un appareil, ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â« ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â  Importer ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â» sur l'autre.</p>
       <input type="file" id="file-import" accept="application/json,.json" style="display:none">
     </div>
 
     <div class="card" style="margin-top:18px">
-      <h3>🔒 Verrouillage par code PIN</h3>
-      <p class="muted small">Un code PIN verrouille l'application à chaque démarrage (les données restent locales sur l'appareil).</p>
+      <h3>ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ Verrouillage par code PIN</h3>
+      <p class="muted small">Un code PIN verrouille l'application ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  chaque dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©marrage (les donnÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©es restent locales sur l'appareil).</p>
       <div id="pin-zone"></div>
     </div>
 
     ${last.length ? `
-    <h3 style="margin:18px 0 10px">Dernières inspections</h3>
+    <h3 style="margin:18px 0 10px">DerniÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨res inspections</h3>
     <div class="list">
       ${last.map(renderInspItem).join('')}
     </div>` : ''}
@@ -339,28 +339,28 @@ Routes.accueil = async function () {
       const info = await fetchJsonUtf8('api/host');
       if (info && (info.lan || info.pc)) {
         const lan = info.lan || info.pc;
-        el.innerHTML = `🖥️ <strong>Cet ordinateur</strong> sert l'appli sur :<br>
-          • depuis le PC : <code>${esc(info.pc)}</code><br>
-          • depuis le réseau (téléphone) : <code id="lan-url">${esc(lan)}</code> <button type="button" class="btn ghost" id="copy-lan" style="padding:3px 10px">📋 copier</button><br>
-          • URL de synchro : <code>${esc(info.sync)}</code>`;
+        el.innerHTML = `ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â <strong>Cet ordinateur</strong> sert l'appli sur :<br>
+          ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ depuis le PC : <code>${esc(info.pc)}</code><br>
+          ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ depuis le rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©seau (tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©lÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©phone) : <code id="lan-url">${esc(lan)}</code> <button type="button" class="btn ghost" id="copy-lan" style="padding:3px 10px">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹ copier</button><br>
+          ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ URL de synchro : <code>${esc(info.sync)}</code>`;
         const bc = $('#copy-lan', view);
         if (bc) bc.onclick = () => {
           const txt = lan;
-          if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => toast('📋 copié : ' + txt));
-          else toast('À copier : ' + txt);
+          if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => toast('ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹ copiÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© : ' + txt));
+          else toast('ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ copier : ' + txt);
         };
-        // pré-remplir le champ URL de synchro si vide
+        // prÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©-remplir le champ URL de synchro si vide
         if (su && !su.value) { su.value = info.sync; localStorage.setItem('cu_sync_url', info.sync); }
       } else {
-        el.innerHTML = '🖥️ Appli ouverte depuis : <code>' + esc(location.origin) + '</code>';
+        el.innerHTML = 'ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â Appli ouverte depuis : <code>' + esc(location.origin) + '</code>';
       }
     } catch (e) {
       // hors serveur local (ex. github.io) : afficher l'hote courant
       const h = location.hostname;
       const isLocal = h === 'localhost' || h === '127.0.0.1';
       el.innerHTML = isLocal
-        ? '🖥️ Appli ouverte en local : <code>' + esc(location.origin) + '</code> (l\'adresse réseau s\'affiche quand le serveur local tourne)'
-        : '🖥️ Appli ouverte depuis : <code>' + esc(location.origin) + '</code><br>URL de synchro proposée : <code>' + esc(location.origin + '/api/sync') + '</code>';
+        ? 'ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â Appli ouverte en local : <code>' + esc(location.origin) + '</code> (l\'adresse rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©seau s\'affiche quand le serveur local tourne)'
+        : 'ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â Appli ouverte depuis : <code>' + esc(location.origin) + '</code><br>URL de synchro proposÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©e : <code>' + esc(location.origin + '/api/sync') + '</code>';
     }
   })();
 };
@@ -369,10 +369,10 @@ function renderInspItem(r) {
   const stats = computeStats(r);
   return `
   <a class="list-item" href="rapport.html?id=${encodeURIComponent(r.id)}">
-    <span class="doc-ico">🦺</span>
+    <span class="doc-ico">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€šÃ‚Â¦Ãƒâ€šÃ‚Âº</span>
     <span class="grow">
-      <span class="title">${esc(r.header?.site || 'Site non renseigné')} — SST ${esc(r.header?.sst || '?')}</span><br>
-      <span class="meta">${esc(r.header?.technicien || '')} · ${fmtDate(r.header?.date || r.createdAt)} · ${esc(r.checklistTitle || '')}${r.header?.projetNom ? ' · 📁 ' + esc(r.header.projetNom) : ''}</span>
+      <span class="title">${esc(r.header?.site || 'Site non renseignÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©')} ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â SST ${esc(r.header?.sst || '?')}</span><br>
+      <span class="meta">${esc(r.header?.technicien || '')} ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ${fmtDate(r.header?.date || r.createdAt)} ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ${esc(r.checklistTitle || '')}${r.header?.projetNom ? ' ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒâ€šÃ‚Â ' + esc(r.header.projetNom) : ''}</span>
     </span>
     ${stats.nc > 0 ? `<span class="badge ko">${stats.nc} NC</span>` : `<span class="badge ok">${stats.c} C</span>`}
   </a>`;
@@ -403,13 +403,13 @@ function renderGlobalSearch(q, container, ctx) {
   const ins = insp.filter(r => (r.header?.site || '').toLowerCase().includes(q) || (r.header?.projetNom || '').toLowerCase().includes(q) || JSON.stringify(r.answers || {}).toLowerCase().includes(q));
   const sect = (label, items) => items.length ? `<h4 class="gs-sect">${label} (${items.length})</h4><div class="list" style="margin-bottom:14px">${items.join('')}</div>` : '';
   container.innerHTML =
-    sect('📄 Documents', docs.map(d => `<a class="list-item" href="docs/${encodeURIComponent(d.file)}" target="_blank" rel="noopener"><span class="doc-ico">${d.icon || '📄'}</span><span class="grow"><span class="title">${esc(d.title)}</span><br><span class="meta">${esc(d.tags || '')}</span></span><span class="badge na">PDF</span></a>`)) +
-    sect('📝 Fiches de synthèse', fiches.map(f => `<a class="list-item" href="#/fiche/${encodeURIComponent(f.id)}"><span class="doc-ico">📝</span><span class="grow"><span class="title">${esc(f.title)}</span><br><span class="meta">${esc(f.tags || '')}</span></span></a>`)) +
-    sect('📁 Projets', pr.map(p => `<a class="list-item" href="#/projets/voir/${encodeURIComponent(p.id)}"><span class="doc-ico">📁</span><span class="grow"><span class="title">${esc(p.values?.nom || p.title || p.id)}</span><br><span class="meta">${[p.values?.ville, p.values?.etat].filter(Boolean).map(esc).join(' · ')}</span></span></a>`)) +
-    sect('🚧 Avancements', av.map(a => `<a class="list-item" href="#/avancement/voir/${encodeURIComponent(a.id)}"><span class="doc-ico">🚧</span><span class="grow"><span class="title">${esc(a.title || 'Point d\'avancement')}</span><br><span class="meta">${esc(a.values?.date || '')}</span></span></a>`)) +
-    sect('🦺 Inspections', ins.map(r => renderInspItem(r)));
+    sect('ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾ Documents', docs.map(d => `<a class="list-item" href="docs/${encodeURIComponent(d.file)}" target="_blank" rel="noopener"><span class="doc-ico">${d.icon || 'ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾'}</span><span class="grow"><span class="title">${esc(d.title)}</span><br><span class="meta">${esc(d.tags || '')}</span></span><span class="badge na">PDF</span></a>`)) +
+    sect('ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒâ€šÃ‚Â Fiches de synthÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨se', fiches.map(f => `<a class="list-item" href="#/fiche/${encodeURIComponent(f.id)}"><span class="doc-ico">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒâ€šÃ‚Â</span><span class="grow"><span class="title">${esc(f.title)}</span><br><span class="meta">${esc(f.tags || '')}</span></span></a>`)) +
+    sect('ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒâ€šÃ‚Â Projets', pr.map(p => `<a class="list-item" href="#/projets/voir/${encodeURIComponent(p.id)}"><span class="doc-ico">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒâ€šÃ‚Â</span><span class="grow"><span class="title">${esc(p.values?.nom || p.title || p.id)}</span><br><span class="meta">${[p.values?.ville, p.values?.etat].filter(Boolean).map(esc).join(' ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ')}</span></span></a>`)) +
+    sect('ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â¡Ãƒâ€šÃ‚Â§ Avancements', av.map(a => `<a class="list-item" href="#/avancement/voir/${encodeURIComponent(a.id)}"><span class="doc-ico">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â¡Ãƒâ€šÃ‚Â§</span><span class="grow"><span class="title">${esc(a.title || 'Point d\'avancement')}</span><br><span class="meta">${esc(a.values?.date || '')}</span></span></a>`)) +
+    sect('ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€šÃ‚Â¦Ãƒâ€šÃ‚Âº Inspections', ins.map(r => renderInspItem(r)));
   if (!docs.length && !fiches.length && !pr.length && !av.length && !ins.length) {
-    container.innerHTML = `<div class="empty"><span class="ico">🔍</span>Aucun résultat pour « ${esc(q)} ».</div>`;
+    container.innerHTML = `<div class="empty"><span class="ico">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â</span>Aucun rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©sultat pour ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â« ${esc(q)} ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â».</div>`;
   }
 }
 
@@ -422,36 +422,36 @@ Routes.connaissances = async function () {
     const q = ($('#search')?.value || '').toLowerCase();
     let inner = `
       <h2 class="page-title">Connaissances</h2>
-      <p class="page-sub">Documents de référence et fiches de synthèse — disponibles hors-ligne.</p>
+      <p class="page-sub">Documents de rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©fÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©rence et fiches de synthÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨se ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â disponibles hors-ligne.</p>
       <div class="seg no-print">
-        <button data-tab="docs" class="${state.tab === 'docs' ? 'active' : ''}">📄 Documents (${data.docs.length})</button>
-        <button data-tab="fiches" class="${state.tab === 'fiches' ? 'active' : ''}">📝 Fiches de synthèse (${data.fiches.length})</button>
+        <button data-tab="docs" class="${state.tab === 'docs' ? 'active' : ''}">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾ Documents (${data.docs.length})</button>
+        <button data-tab="fiches" class="${state.tab === 'fiches' ? 'active' : ''}">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒâ€šÃ‚Â Fiches de synthÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨se (${data.fiches.length})</button>
       </div>
-      <input id="search" class="search" type="search" placeholder="Rechercher…" value="${esc($('#search')?.value || '')}">
+      <input id="search" class="search" type="search" placeholder="RechercherÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦" value="${esc($('#search')?.value || '')}">
     `;
     if (state.tab === 'docs') {
       const docs = data.docs.filter(d => (d.title + ' ' + d.tags + ' ' + (d.desc || '')).toLowerCase().includes(q));
       inner += `<div class="list">` + docs.map(d => `
         <a class="list-item" href="docs/${encodeURIComponent(d.file)}" target="_blank" rel="noopener">
-          <span class="doc-ico">${d.icon || '📄'}</span>
+          <span class="doc-ico">${d.icon || 'ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾'}</span>
           <span class="grow">
             <span class="title">${esc(d.title)}</span><br>
-            <span class="meta">${esc(d.desc || '')} ${d.tags ? '· ' + esc(d.tags) : ''}</span>
+            <span class="meta">${esc(d.desc || '')} ${d.tags ? 'ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ' + esc(d.tags) : ''}</span>
           </span>
           <span class="badge na">PDF</span>
         </a>`).join('') + `</div>`;
-      if (!docs.length) inner += `<div class="empty"><span class="ico">🔍</span>Aucun document ne correspond.</div>`;
+      if (!docs.length) inner += `<div class="empty"><span class="ico">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â</span>Aucun document ne correspond.</div>`;
     } else {
       const fiches = data.fiches.filter(f => (f.title + ' ' + f.tags + ' ' + f.body).toLowerCase().includes(q));
       inner += `<div class="list">` + fiches.map((f, i) => `
         <a class="list-item" href="#/fiche/${f.id}">
-          <span class="doc-ico">📝</span>
+          <span class="doc-ico">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒâ€šÃ‚Â</span>
           <span class="grow">
             <span class="title">${esc(f.title)}</span><br>
             <span class="meta">${esc(f.tags)}</span>
           </span>
         </a>`).join('') + `</div>`;
-      if (!fiches.length) inner += `<div class="empty"><span class="ico">🔍</span>Aucune fiche ne correspond.</div>`;
+      if (!fiches.length) inner += `<div class="empty"><span class="ico">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â</span>Aucune fiche ne correspond.</div>`;
     }
     view.innerHTML = inner;
     $$('.seg button', view).forEach(b => b.onclick = () => { state.tab = b.dataset.tab; render(); });
@@ -467,7 +467,7 @@ Routes.fiche = async function (id) {
   const f = data.fiches.find(x => x.id === id);
   if (!f) { view.innerHTML = `<div class="empty">Fiche introuvable. <a href="#/connaissances">Retour</a></div>`; return; }
   view.innerHTML = `
-    <p class="no-print"><a href="#/connaissances">← Connaissances</a></p>
+    <p class="no-print"><a href="#/connaissances">ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Ãƒâ€šÃ‚Â Connaissances</a></p>
     <div class="card fiche">
       <h3>${esc(f.title)}</h3>
       <p class="muted small">${esc(f.tags)}</p>
@@ -482,14 +482,14 @@ Routes.inspection = async function () {
   if (data.checklists.length === 1) { location.hash = '#/inspection/nouveau/' + data.checklists[0].id; return; }
   view.innerHTML = `
     <h2 class="page-title">Inspection SST</h2>
-    <p class="page-sub">Choisis le formulaire à remplir sur le terrain. La saisie est enregistrée localement, même hors-ligne.</p>
+    <p class="page-sub">Choisis le formulaire ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  remplir sur le terrain. La saisie est enregistrÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©e localement, mÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªme hors-ligne.</p>
     <div class="list">
       ${data.checklists.map(cl => `
         <a class="list-item" href="#/inspection/nouveau/${cl.id}">
-          <span class="doc-ico">🦺</span>
+          <span class="doc-ico">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€šÃ‚Â¦Ãƒâ€šÃ‚Âº</span>
           <span class="grow">
             <span class="title">${esc(cl.title)}</span><br>
-            <span class="meta">${esc(cl.desc || '')} · ${(cl.categories || []).reduce((n, c) => n + (c.points || []).length, 0)} points de contrôle</span>
+            <span class="meta">${esc(cl.desc || '')} ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ${(cl.categories || []).reduce((n, c) => n + (c.points || []).length, 0)} points de contrÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â´le</span>
           </span>
           <span class="badge warn">Nouveau</span>
         </a>`).join('')}
@@ -524,14 +524,14 @@ Routes['inspection/remplir'] = async function () {
 
   const total = cl.categories.reduce((n, c) => n + c.points.length, 0);
   const done = () => Object.values(d.answers).filter(a => a && a.status).length;
-  // types réellement couverts par ce formulaire
+  // types rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©ellement couverts par ce formulaire
   const typesCouverts = new Set();
   cl.categories.forEach(c => c.points.forEach(p => (p.types || ['ALL']).forEach(t => typesCouverts.add(t))));
   if (typesCouverts.has('ALL')) { typesCouverts.add('HT'); typesCouverts.add('BT'); typesCouverts.add('FROID'); }
   const opts = [];
-  if (typesCouverts.has('BT')) opts.push('<option value="BT" ' + (d.header.type === 'BT' ? 'selected' : '') + '>BT — température &lt; 110 °C</option>');
-  if (typesCouverts.has('HT')) opts.push('<option value="HT" ' + (d.header.type === 'HT' ? 'selected' : '') + '>HT — température ≥ 110 °C</option>');
-  if (typesCouverts.has('FROID')) opts.push('<option value="FROID" ' + (d.header.type === 'FROID' ? 'selected' : '') + '>FROID — réseau de froid urbain</option>');
+  if (typesCouverts.has('BT')) opts.push('<option value="BT" ' + (d.header.type === 'BT' ? 'selected' : '') + '>BT ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â tempÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©rature &lt; 110 ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°C</option>');
+  if (typesCouverts.has('HT')) opts.push('<option value="HT" ' + (d.header.type === 'HT' ? 'selected' : '') + '>HT ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â tempÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©rature ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â°Ãƒâ€šÃ‚Â¥ 110 ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°C</option>');
+  if (typesCouverts.has('FROID')) opts.push('<option value="FROID" ' + (d.header.type === 'FROID' ? 'selected' : '') + '>FROID ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©seau de froid urbain</option>');
   if (!typesCouverts.has(d.header.type)) d.header.type = opts.length ? (opts[0].match(/value="(\w+)"/) || [])[1] : 'BT';
 
   function render() {
@@ -542,27 +542,27 @@ Routes['inspection/remplir'] = async function () {
       <p class="page-sub">${esc(cl.desc || '')}</p>
 
       <div class="card">
-        <h3>En-tête de l'inspection</h3>
+        <h3>En-tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªte de l'inspection</h3>
         <div class="grid2">
           <div class="field"><label>Site / Installation</label>
-            <input type="text" id="f-site" value="${esc(d.header.site)}" placeholder="Ex. Résidence Les Tilleuls, Lyon 3e"></div>
-          <div class="field"><label>Repère sous-station</label>
-            <input type="text" id="f-sst" value="${esc(d.header.sst)}" placeholder="Ex. SST Bat B — local chaufferie RDC"></div>
+            <input type="text" id="f-site" value="${esc(d.header.site)}" placeholder="Ex. RÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©sidence Les Tilleuls, Lyon 3e"></div>
+          <div class="field"><label>RepÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨re sous-station</label>
+            <input type="text" id="f-sst" value="${esc(d.header.sst)}" placeholder="Ex. SST Bat B ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â local chaufferie RDC"></div>
           <div class="field"><label>Date</label>
             <input type="datetime-local" id="f-date" value="${esc(d.header.date)}"></div>
           <div class="field"><label>Technicien</label>
-            <input type="text" id="f-tech" value="${esc(d.header.technicien)}" placeholder="Nom et prénom"></div>
+            <input type="text" id="f-tech" value="${esc(d.header.technicien)}" placeholder="Nom et prÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©nom"></div>
           <div class="field"><label>Type de sous-station</label>
             <select id="f-type">${opts.join('')}</select></div>
-          <div class="field"><label>Projet lié (facultatif)</label>
-            <select id="f-projet"><option value="">— aucun projet —</option>${projets.map(p => `<option value="${esc(p.id)}" ${d.header.projetId === p.id ? 'selected' : ''}>${esc(p.values?.nom || p.id)}</option>`).join('')}</select></div>
+          <div class="field"><label>Projet liÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© (facultatif)</label>
+            <select id="f-projet"><option value="">ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â aucun projet ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â</option>${projets.map(p => `<option value="${esc(p.id)}" ${d.header.projetId === p.id ? 'selected' : ''}>${esc(p.values?.nom || p.id)}</option>`).join('')}</select></div>
         </div>
       </div>
 
       <div class="progress">
-        Progression : ${answered}/${total} points renseignés
-        ${stats.nc ? ` · <span class="badge ko">${stats.nc} NC</span>` : ''}
-        ${stats.todo ? ` · <span class="badge na">${stats.todo} à faire</span>` : ' · <span class="badge ok">terminé</span>'}
+        Progression : ${answered}/${total} points renseignÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©s
+        ${stats.nc ? ` ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· <span class="badge ko">${stats.nc} NC</span>` : ''}
+        ${stats.todo ? ` ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· <span class="badge na">${stats.todo} ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  faire</span>` : ' ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· <span class="badge ok">terminÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©</span>'}
         <div class="bar"><div style="width:${total ? (answered / total * 100) : 0}%"></div></div>
       </div>
 
@@ -573,15 +573,15 @@ Routes['inspection/remplir'] = async function () {
 
       <div class="card">
         <h3>Finaliser</h3>
-        <p class="muted small">L'inspection est enregistrée sur cet appareil. Tu pourras ensuite ouvrir le PV, l'imprimer (PDF) ou l'exporter.</p>
+        <p class="muted small">L'inspection est enregistrÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©e sur cet appareil. Tu pourras ensuite ouvrir le PV, l'imprimer (PDF) ou l'exporter.</p>
         <div class="btn-row">
-          <button class="btn" id="btn-save">💾 Enregistrer l'inspection</button>
-          <button class="btn secondary" id="btn-pv">📄 Voir le PV</button>
+          <button class="btn" id="btn-save">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢Ãƒâ€šÃ‚Â¾ Enregistrer l'inspection</button>
+          <button class="btn secondary" id="btn-pv">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾ Voir le PV</button>
         </div>
       </div>
     `;
 
-    // en-tête
+    // en-tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªte
     $('#f-site').oninput = e => d.header.site = e.target.value;
     $('#f-sst').oninput = e => d.header.sst = e.target.value;
     $('#f-date').oninput = e => d.header.date = e.target.value;
@@ -594,7 +594,7 @@ Routes['inspection/remplir'] = async function () {
       d.header.projetNom = p ? (p.values?.nom || '') : '';
     };
 
-    // points de contrôle
+    // points de contrÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â´le
     $$('.ctrl', view).forEach(el => {
       const pid = el.dataset.pid;
       const a = d.answers[pid] || (d.answers[pid] = { status: null, obs: '', photos: [] });
@@ -634,7 +634,7 @@ Routes['inspection/remplir'] = async function () {
       d.updatedAt = new Date().toISOString();
       await DB.put('inspections', d);
       App.draft = null;
-      toast('✅ Inspection enregistrée');
+      toast('ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ Inspection enregistrÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©e');
       location.hash = '#/rapports';
     };
     $('#btn-pv').onclick = async () => {
@@ -651,16 +651,16 @@ Routes['inspection/remplir'] = async function () {
     return `
       <div class="ctrl" data-pid="${esc(p.id)}">
         <div class="q">${esc(p.label)}</div>
-        ${p.reg ? `<div class="reg">📖 ${esc(p.reg)}</div>` : ''}
+        ${p.reg ? `<div class="reg">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ ${esc(p.reg)}</div>` : ''}
         <div class="rep-row">
-          <button class="rep c ${a.status === 'C' ? 'sel-c' : ''}" data-v="C">✔ Conforme</button>
-          <button class="rep nc ${a.status === 'NC' ? 'sel-nc' : ''}" data-v="NC">✘ Non conforme</button>
-          <button class="rep na ${a.status === 'NA' ? 'sel-na' : ''}" data-v="NA">— N/A</button>
+          <button class="rep c ${a.status === 'C' ? 'sel-c' : ''}" data-v="C">ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Conforme</button>
+          <button class="rep nc ${a.status === 'NC' ? 'sel-nc' : ''}" data-v="NC">ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“Ãƒâ€¹Ã…â€œ Non conforme</button>
+          <button class="rep na ${a.status === 'NA' ? 'sel-na' : ''}" data-v="NA">ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â N/A</button>
         </div>
-        <textarea class="obs" placeholder="Observation…">${esc(a.obs || '')}</textarea>
+        <textarea class="obs" placeholder="ObservationÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦">${esc(a.obs || '')}</textarea>
         <div class="photos">
-          ${(a.photos || []).map((ph, i) => `<div class="photo"><img src="${ph}" alt="photo ${i + 1}"><button class="del" title="Supprimer">✕</button></div>`).join('')}
-          <label class="add-photo" title="Ajouter une photo">＋<input class="file" type="file" accept="image/*" capture="environment" style="display:none"></label>
+          ${(a.photos || []).map((ph, i) => `<div class="photo"><img src="${ph}" alt="photo ${i + 1}"><button class="del" title="Supprimer">ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢</button></div>`).join('')}
+          <label class="add-photo" title="Ajouter une photo">ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¼ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹<input class="file" type="file" accept="image/*" capture="environment" style="display:none"></label>
         </div>
       </div>`;
   }
@@ -669,7 +669,7 @@ Routes['inspection/remplir'] = async function () {
 };
 
 /* ============================================================
-   FORMULAIRES GÉNÉRIQUES — Fiches projet & Points d'avancement
+   FORMULAIRES GÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â°NÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â°RIQUES ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Fiches projet & Points d'avancement
    ============================================================ */
 
 function fieldHtml(f, val, projets) {
@@ -681,11 +681,11 @@ function fieldHtml(f, val, projets) {
       return `<div class="field"><label>${lab}</label><textarea id="fld-${esc(f.id)}" ${req} placeholder="${esc(f.placeholder || '')}">${esc(v)}</textarea></div>`;
     case 'select': {
       const opts = (f.options || []).map(o => `<option value="${esc(o)}" ${String(v) === o ? 'selected' : ''}>${esc(o)}</option>`).join('');
-      return `<div class="field"><label>${lab}</label><select id="fld-${esc(f.id)}" ${req}><option value="">—</option>${opts}</select></div>`;
+      return `<div class="field"><label>${lab}</label><select id="fld-${esc(f.id)}" ${req}><option value="">ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â</option>${opts}</select></div>`;
     }
     case 'select-projets': {
       const opts = (projets || []).map(p => `<option value="${esc(p.id)}" ${String(v) === p.id ? 'selected' : ''}>${esc(p.values?.nom || p.id)}</option>`).join('');
-      return `<div class="field"><label>${lab}</label><select id="fld-${esc(f.id)}"><option value="">— choisir un projet enregistré —</option>${opts}</select></div>`;
+      return `<div class="field"><label>${lab}</label><select id="fld-${esc(f.id)}"><option value="">ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â choisir un projet enregistrÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â</option>${opts}</select></div>`;
     }
     case 'contacts': {
       const list = Array.isArray(v) ? v : [];
@@ -694,11 +694,11 @@ function fieldHtml(f, val, projets) {
           <div class="grid2">
             ${(f.subfields || []).map(sf => `<div class="field"><label>${esc(sf.label)}</label><input type="${esc(sf.type || 'text')}" class="c-in" data-k="${esc(sf.id)}" value="${esc(c?.[sf.id] ?? '')}" placeholder="${esc(sf.placeholder || sf.label)}"></div>`).join('')}
           </div>
-          <button type="button" class="btn ghost c-del" style="padding:6px 12px">✕ Retirer ce contact</button>
+          <button type="button" class="btn ghost c-del" style="padding:6px 12px">ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Retirer ce contact</button>
         </div>`;
       return `<div class="field"><label>${lab}</label>
         <div id="fld-contacts">${list.map(blocHtml).join('')}</div>
-        <button type="button" class="btn secondary c-add">➕ Ajouter un contact</button>
+        <button type="button" class="btn secondary c-add">ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã‚Â¾ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Ajouter un contact</button>
       </div>`;
     }
     case 'postes': {
@@ -708,7 +708,7 @@ function fieldHtml(f, val, projets) {
           <label>${esc(p)}</label>
           <div class="grid2">
             <input type="number" min="0" max="100" class="poste-pct" data-p="${esc(p)}" value="${esc(cur[p]?.pct ?? '')}" placeholder="Avancement %">
-            <input type="text" class="poste-com" data-p="${esc(p)}" value="${esc(cur[p]?.com || '')}" placeholder="Commentaire…">
+            <input type="text" class="poste-com" data-p="${esc(p)}" value="${esc(cur[p]?.com || '')}" placeholder="CommentaireÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦">
           </div>
         </div>`).join('') + `</div>`;
     }
@@ -717,8 +717,8 @@ function fieldHtml(f, val, projets) {
       return `<div class="field"><label>${lab}</label>
         <input type="hidden" id="fld-${esc(f.id)}" value="${esc(JSON.stringify(arr))}">
         <div class="photos" id="ph-${esc(f.id)}">
-          ${arr.map((ph, i) => `<div class="photo"><img src="${ph}" alt="photo ${i + 1}"><button type="button" class="del" title="Supprimer">✕</button></div>`).join('')}
-          <label class="add-photo" title="Ajouter une photo">＋<input class="file" type="file" accept="image/*" capture="environment" style="display:none"></label>
+          ${arr.map((ph, i) => `<div class="photo"><img src="${ph}" alt="photo ${i + 1}"><button type="button" class="del" title="Supprimer">ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢</button></div>`).join('')}
+          <label class="add-photo" title="Ajouter une photo">ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¼ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹<input class="file" type="file" accept="image/*" capture="environment" style="display:none"></label>
         </div>
       </div>`;
     }
@@ -728,6 +728,10 @@ function fieldHtml(f, val, projets) {
 }
 
 function readField(f) {
+  if (f.type === 'photos') {
+    const el = $('#fld-' + f.id);
+    try { return JSON.parse(el ? el.value : '[]'); } catch (e) { return []; }
+  }
   if (f.type === 'contacts') {
     const box = $('#fld-contacts');
     if (!box) return [];
@@ -760,7 +764,7 @@ function formTitleOf(def, values) {
   if (def.id === 'projet') return values.nom || 'Projet sans nom';
   if (def.id === 'avancement') {
     const p = values.projetLibre || values.projet || '';
-    return 'Point du ' + (values.date || '…') + (p ? ' — ' + p : '');
+    return 'Point du ' + (values.date || 'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦') + (p ? ' ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ' + p : '');
   }
   return values[def.listTitle] || def.title;
 }
@@ -780,17 +784,17 @@ function listView(defId) {
         <h2 class="page-title">${def.ico} ${esc(def.title)}</h2>
         <p class="page-sub">${esc(def.desc)}</p>
         <div class="btn-row" style="margin-bottom:12px">
-          <a class="btn" href="#/${defId === 'projet' ? 'projets' : 'avancement'}/nouveau">➕ Nouveau</a>
-          <button class="btn ghost" id="btn-export-all">⬇ Exporter tout (JSON)</button>
+          <a class="btn" href="#/${defId === 'projet' ? 'projets' : 'avancement'}/nouveau">ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã‚Â¾ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Nouveau</a>
+          <button class="btn ghost" id="btn-export-all">ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¡ Exporter tout (JSON)</button>
         </div>
-        <input id="search" class="search" type="search" placeholder="Rechercher dans les ${defId === 'projet' ? 'fiches projet' : 'points d\'avancement'}…" value="${esc($('#search')?.value || '')}">
+        <input id="search" class="search" type="search" placeholder="Rechercher dans les ${defId === 'projet' ? 'fiches projet' : 'points d\'avancement'}ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦" value="${esc($('#search')?.value || '')}">
         ${filtered.length ? `<div class="list">${filtered.map(it => {
           const title = formTitleOf(def, it.values);
           let meta = fmtDate(it.createdAt);
-          if (def.id === 'projet') meta = [it.values.ville, it.values.etat].filter(Boolean).join(' · ') || meta;
+          if (def.id === 'projet') meta = [it.values.ville, it.values.etat].filter(Boolean).join(' ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ') || meta;
           if (def.id === 'avancement') {
             const pn = it.values.projet ? (projets.find(p => p.id === it.values.projet)?.values?.nom || it.values.projet) : '';
-            meta = [it.values.date, pn, it.values.avancementGlobal != null ? it.values.avancementGlobal + ' %' : ''].filter(Boolean).join(' · ');
+            meta = [it.values.date, pn, it.values.avancementGlobal != null ? it.values.avancementGlobal + ' %' : ''].filter(Boolean).join(' ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· ');
           }
           return `
           <a class="list-item" href="#/${defId === 'projet' ? 'projets' : 'avancement'}/voir/${encodeURIComponent(it.id)}">
@@ -799,7 +803,7 @@ function listView(defId) {
             <span class="badge na">${esc(def.title)}</span>
           </a>`;
         }).join('')}</div>`
-        : `<div class="empty"><span class="ico">${def.ico}</span>Aucun enregistrement${q ? ' ne correspond à « ' + esc(q) + ' »' : ''}.</div>`}
+        : `<div class="empty"><span class="ico">${def.ico}</span>Aucun enregistrement${q ? ' ne correspond ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â« ' + esc(q) + ' ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â»' : ''}.</div>`}
       `;
       $('#search', view).addEventListener('input', render);
       const be = $('#btn-export-all', view);
@@ -816,11 +820,11 @@ function exportJson(filename, obj) {
   a.download = filename;
   a.click();
   URL.revokeObjectURL(a.href);
-  toast('⬇ Export JSON téléchargé');
+  toast('ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¡ Export JSON tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©lÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©chargÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©');
 }
 
 /* ============================================================
-   SYNCHRONISATION — export/import JSON + API serveur local
+   SYNCHRONISATION ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â export/import JSON + API serveur local
    ============================================================ */
 function deviceId() {
   let id = localStorage.getItem('cu_device');
@@ -848,7 +852,7 @@ async function collectAll() {
 }
 
 /* Fusionne un payload {inspections, projets, avancements, deleted} dans le local.
-   Règle : par id, la version avec l'updatedAt le plus récent gagne ; les suppressions se propagent. */
+   RÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨gle : par id, la version avec l'updatedAt le plus rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©cent gagne ; les suppressions se propagent. */
 async function applyPayload(obj) {
   let upsert = 0, suppr = 0;
   for (const store of ['inspections', 'projets', 'avancements']) {
@@ -863,7 +867,7 @@ async function applyPayload(obj) {
       markDeleted(d.id);
     }
   }
-  // tombstones de plus de 30 jours → oubli
+  // tombstones de plus de 30 jours ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ oubli
   const cutoff = Date.now() - 30 * 24 * 3600 * 1000;
   localStorage.setItem('cu_deleted', JSON.stringify(deletedList().filter(d => Date.parse(d.at) > cutoff)));
   return { upsert, suppr };
@@ -877,12 +881,12 @@ function importAllFromFile(file) {
   file.text()
     .then(t => JSON.parse(t))
     .then(async (obj) => {
-      if (!obj || (!obj.inspections && !obj.projets && !obj.avancements)) { toast('❌ Fichier non reconnu (pas une sauvegarde Chauffage Urbain)'); return; }
+      if (!obj || (!obj.inspections && !obj.projets && !obj.avancements)) { toast('ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ Fichier non reconnu (pas une sauvegarde Chauffage Urbain)'); return; }
       const r = await applyPayload(obj);
-      toast(`✅ Import : ${r.upsert} enregistrement(s) fusionné(s), ${r.suppr} suppression(s) propagée(s)`);
+      toast(`ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ Import : ${r.upsert} enregistrement(s) fusionnÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©(s), ${r.suppr} suppression(s) propagÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©e(s)`);
       router();
     })
-    .catch(e => toast('❌ Import impossible : ' + e.message));
+    .catch(e => toast('ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ Import impossible : ' + e.message));
 }
 
 /* Normalise l'URL de synchro : ajoute /api/sync si manquante (ex. http://192.168.0.7:8765 -> .../api/sync) */
@@ -899,24 +903,24 @@ async function testSyncUrl() {
   const hostUrl = base.replace(/\/api\/sync$/i, '/api/host');
   const el = $('#sync-test-result');
   const say = (html, ok) => { if (el) { el.innerHTML = html; el.style.color = ok ? 'var(--ok)' : 'var(--ko)'; } };
-  say('🧪 Test de <code>' + esc(hostUrl) + '</code>…', true);
+  say('ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€šÃ‚Â§Ãƒâ€šÃ‚Âª Test de <code>' + esc(hostUrl) + '</code>ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦', true);
   try {
     const res = await fetch(hostUrl, { cache: 'no-store' });
-    if (!res.ok) { say('❌ Réponse HTTP ' + res.status + ' — le serveur ne répond pas sur cette URL (elle doit finir par <code>/api/host</code> ou <code>/api/sync</code>).', false); return; }
+    if (!res.ok) { say('ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ RÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©ponse HTTP ' + res.status + ' ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â le serveur ne rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©pond pas sur cette URL (elle doit finir par <code>/api/host</code> ou <code>/api/sync</code>).', false); return; }
     const info = await res.json();
-    say('✅ <strong>PC joignable</strong> : <code>' + esc(info.ip || '?') + ':' + esc(info.port || '?') + '</code> — tu peux lancer « 🔄 Synchroniser ».', true);
+    say('ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ <strong>PC joignable</strong> : <code>' + esc(info.ip || '?') + ':' + esc(info.port || '?') + '</code> ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â tu peux lancer ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â« ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾ Synchroniser ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â».', true);
   } catch (e) {
-    say('❌ PC injoignable (' + esc(e.message || 'erreur réseau') + '). Vérifie :<br>' +
-      '• le téléphone est sur le <strong>même Wi-Fi</strong> que le PC (pas en 4G/5G)<br>' +
-      '• le PC est allumé et le serveur tourne (raccourci bureau « Appli Chauffage Urbain »)<br>' +
-      '• le <strong>pare-feu Windows</strong> a autorisé le port (popup « Autoriser l\'accès »)<br>' +
-      '• l\'IP du PC n\'a pas changé (DHCP) — la recopier depuis la carte 🖥️ ci-dessus<br>' +
-      '• sur le téléphone, ouvrir directement <code>http://&lt;IP&gt;:' + esc((new URL(base)).port || '8765') + '/</code> (pas la version https GitHub Pages : Safari bloque les appels http depuis une page https)', false);
+    say('ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ PC injoignable (' + esc(e.message || 'erreur rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©seau') + '). VÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©rifie :<br>' +
+      'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ le tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©lÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©phone est sur le <strong>mÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªme Wi-Fi</strong> que le PC (pas en 4G/5G)<br>' +
+      'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ le PC est allumÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© et le serveur tourne (raccourci bureau ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â« Appli Chauffage Urbain ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â»)<br>' +
+      'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ le <strong>pare-feu Windows</strong> a autorisÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© le port (popup ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â« Autoriser l\'accÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¨s ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â»)<br>' +
+      'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ l\'IP du PC n\'a pas changÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© (DHCP) ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â la recopier depuis la carte ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¥ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â ci-dessus<br>' +
+      'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ sur le tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©lÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©phone, ouvrir directement <code>http://&lt;IP&gt;:' + esc((new URL(base)).port || '8765') + '/</code> (pas la version https GitHub Pages : Safari bloque les appels http depuis une page https)', false);
   }
 }
 
 async function syncNow() {
-  // URL de synchro personnalisable (PC en Wi-Fi), sinon origine actuelle ; /api/sync ajouté si besoin
+  // URL de synchro personnalisable (PC en Wi-Fi), sinon origine actuelle ; /api/sync ajoutÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© si besoin
   const base = normalizeSyncUrl(localStorage.getItem('cu_sync_url'));
   const su = $('#sync-url');
   if (su && su.value.trim() !== base) su.value = base;
@@ -930,13 +934,13 @@ async function syncNow() {
       body: JSON.stringify(payload),
     });
   } catch (e) {
-    toast('❌ Synchro impossible vers ' + base + ' — clique d\'abord sur 🧪 Tester (même Wi-Fi, pare-feu, PC allumé), sinon utilise Exporter/Importer');
+    toast('ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ Synchro impossible vers ' + base + ' ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â clique d\'abord sur ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€šÃ‚Â§Ãƒâ€šÃ‚Âª Tester (mÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âªme Wi-Fi, pare-feu, PC allumÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©), sinon utilise Exporter/Importer');
     return;
   }
-  if (!res.ok) { toast('❌ Synchro refusée (HTTP ' + res.status + ') depuis ' + base + ' — l\'URL doit finir par /api/sync'); return; }
+  if (!res.ok) { toast('ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€¦Ã¢â‚¬â„¢ Synchro refusÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©e (HTTP ' + res.status + ') depuis ' + base + ' ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â l\'URL doit finir par /api/sync'); return; }
   const merged = await res.json();
   const r = await applyPayload(merged);
-  toast(`🔄 Synchro OK : ${r.upsert} enregistrement(s) reçus/mis à jour, ${r.suppr} suppression(s)`);
+  toast(`ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾ Synchro OK : ${r.upsert} enregistrement(s) reÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§us/mis ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  jour, ${r.suppr} suppression(s)`);
   router();
 }
 
@@ -946,110 +950,114 @@ function formReadView(defId, id) {
     const data = await loadData();
     const def = data.forms[defId];
     const rec = await DB.get(def.store, id);
-    if (!rec) { view.innerHTML = `<div class="empty">Enregistrement introuvable. <a href="#/${defId === 'projet' ? 'projets' : 'avancement'}">Retour</a></div>`; return; }
+    if (!rec) {
+      view.innerHTML = '<div class="empty">Enregistrement introuvable. <a href="#/' + (defId === 'projet' ? 'projets' : 'avancement') + '">Retour</a></div>';
+      return;
+    }
     const listRoute = defId === 'projet' ? 'projets' : 'avancement';
-    // résolution du nom de projet pour l'affichage
+
     let projetNom = '';
     if (def.id === 'avancement' && rec.values.projet) {
       const ps = await DB.all('projets');
       projetNom = ps.find(p => p.id === rec.values.projet)?.values?.nom || rec.values.projet;
     }
-    // inspections liées à ce projet
+
     let linkedHtml = '';
     if (def.id === 'projet') {
       const inspAll = await DB.all('inspections');
       const linked = inspAll.filter(r => r.header && r.header.projetId === rec.id);
-      linkedHtml = `<h3 style="margin:18px 0 10px">🦺 Inspections liées à ce projet (${linked.length})</h3>` +
+      linkedHtml = '<h3 style="margin:18px 0 10px">ðŸ¦º Inspections liÃ©es Ã  ce projet (' + linked.length + ')</h3>' +
         (linked.length
-          ? `<div class="list">${linked.map(renderInspItem).join('')}</div>`
-          : '<p class="muted small">Aucune inspection liée pour l\'instant — choisis ce projet dans l\'en-tête d\'une inspection SST.</p>');
+          ? '<div class="list">' + linked.map(renderInspItem).join('') + '</div>'
+          : '<p class="muted small">Aucune inspection liÃ©e pour l\'instant â€” choisis ce projet dans l\'en-tÃªte d\'une inspection SST.</p>');
     }
-    // QR code pour ouvrir la fiche projet sur un autre appareil
+
     let qrHtml = '';
+    let qrUrl = '';
     if (def.id === 'projet') {
-      const url = location.origin + location.pathname + '#/projets/voir/' + encodeURIComponent(rec.id);
-      qrHtml = `<div class="card no-print" style="margin-top:14px">
-        <h3>📱 Ouvrir cette fiche sur un autre appareil</h3>
-        <p class="muted small">Flash ce QR code avec un téléphone (même réseau / même appli) pour ouvrir directement cette fiche :</p>
-        <div class="qr-wrap"><canvas id="qr-canvas" width="200" height="200"></canvas><div class="small muted qr-url">${esc(url)}</div></div>
-      </div>`;
+      let base = location.origin;
+      try {
+        const info = await fetchJsonUtf8('api/host');
+        if (info && info.lan) base = info.lan.replace(/\/+$/, '');
+      } catch (e) {}
+      qrUrl = base + location.pathname.replace(/index\.html$/, '') + '#/projets/voir/' + encodeURIComponent(rec.id);
+      qrHtml = '<div class="card no-print" style="margin-top:14px">' +
+        '<h3>ðŸ“± Ouvrir cette fiche sur un autre appareil</h3>' +
+        '<p class="muted small">Flash ce QR code avec un tÃ©lÃ©phone (mÃªme rÃ©seau / mÃªme appli) pour ouvrir directement cette fiche :</p>' +
+        '<div class="qr-wrap"><div id="qr-box"></div><div class="small muted qr-url">' + esc(qrUrl) + '</div></div>' +
+        '</div>';
     }
+
     const rowsHtml = def.fields.map(f => {
       let v = rec.values[f.id];
-      if (f.type === 'select-projets') v = projetNom || v || '—';
+      if (f.type === 'select-projets') v = projetNom || v || 'â€”';
       if (f.type === 'contacts') {
         const cs = Array.isArray(v) ? v : [];
         const inner = cs.length
           ? '<ul style="margin:0;padding-left:16px">' + cs.map(c =>
-              `<li><strong>${esc(c.nom || '—')}</strong>${c.role ? ' · ' + esc(c.role) : ''}${c.tel ? ' · 📞 ' + esc(c.tel) : ''}${c.mail ? ' · ✉️ <a href="mailto:' + esc(c.mail) + '">' + esc(c.mail) + '</a>' : ''}</li>`).join('') + '</ul>'
-          : '<span class="muted">—</span>';
-        return `<tr><th style="width:40%">${esc(f.label)}</th><td>${inner}</td></tr>`;
+              '<li><strong>' + esc(c.nom || 'â€”') + '</strong>' +
+              (c.role ? ' Â· ' + esc(c.role) : '') +
+              (c.tel ? ' Â· ðŸ“ž ' + esc(c.tel) : '') +
+              (c.mail ? ' Â· âœ‰ï¸ <a href="mailto:' + esc(c.mail) + '">' + esc(c.mail) + '</a>' : '') +
+              '</li>').join('') + '</ul>'
+          : '<span class="muted">â€”</span>';
+        return '<tr><th style="width:40%">' + esc(f.label) + '</th><td>' + inner + '</td></tr>';
       }
       if (f.type === 'postes') {
-        const postes = v && Object.keys(v).length ? Object.entries(v).map(([p, x]) => `<tr><td>${esc(p)}</td><td style="width:70px;text-align:right">${x.pct != null ? esc(x.pct) + ' %' : '—'}</td><td>${esc(x.com || '')}</td></tr>`).join('') : '';
-        return `<tr><th colspan="2" style="background:var(--orange-light)">${esc(f.label)}</th></tr>` + (postes || '<tr><td colspan="2" class="muted">—</td></tr>');
+        const postes = v && Object.keys(v).length
+          ? Object.entries(v).map(([p, x]) => '<tr><td>' + esc(p) + '</td><td style="width:70px;text-align:right">' + (x.pct != null ? esc(x.pct) + ' %' : 'â€”') + '</td><td>' + esc(x.com || '') + '</td></tr>').join('')
+          : '';
+        return '<tr><th colspan="2" style="background:var(--orange-light)">' + esc(f.label) + '</th></tr>' + (postes || '<tr><td colspan="2" class="muted">â€”</td></tr>');
       }
       if (f.type === 'photos') {
         const arr = Array.isArray(v) ? v : [];
         const inner = arr.length
-          ? '<div class="photos">' + arr.map((ph, i) => `<div class="photo" style="width:110px;height:110px"><img src="${ph}" alt="photo ${i + 1}"></div>`).join('') + '</div>'
-          : '<span class="muted">—</span>';
-        return `<tr><th style="width:40%">${esc(f.label)}</th><td>${inner}</td></tr>`;
+          ? '<div class="photos">' + arr.map((ph, i) => '<div class="photo" style="width:110px;height:110px"><img src="' + ph + '" alt="photo ' + (i + 1) + '"></div>').join('') + '</div>'
+          : '<span class="muted">â€”</span>';
+        return '<tr><th style="width:40%">' + esc(f.label) + '</th><td>' + inner + '</td></tr>';
       }
-      const disp = (v === null || v === undefined || v === '') ? '<span class="muted">—</span>' : esc(v);
-      return `<tr><th style="width:40%">${esc(f.label)}</th><td>${disp}</td></tr>`;
+      const disp = (v === null || v === undefined || v === '') ? '<span class="muted">â€”</span>' : esc(v);
+      return '<tr><th style="width:40%">' + esc(f.label) + '</th><td>' + disp + '</td></tr>';
     }).join('');
 
     view.innerHTML = `
-      <p class="no-print"><a href="#/${listRoute}">← Retour à la liste</a></p>
+      <p class="no-print"><a href="#/${listRoute}">â† Retour Ã  la liste</a></p>
       <h2 class="page-title">${def.ico} ${esc(formTitleOf(def, rec.values))}</h2>
-      <p class="page-sub">${esc(def.title)} · enregistrée le ${fmtDate(rec.createdAt)}</p>
+      <p class="page-sub">${esc(def.title)} Â· enregistrÃ©e le ${fmtDate(rec.createdAt)}</p>
       <div class="card">
         <table class="pv">${rowsHtml}</table>
       </div>
       ${qrHtml}
       ${linkedHtml}
       <div class="btn-row no-print">
-        <a class="btn" href="#/${listRoute}/nouveau/${encodeURIComponent(rec.id)}">✏️ Modifier</a>
-        <button class="btn secondary" id="btn-print">🖨 Imprimer / PDF</button>
-        <button class="btn secondary" id="btn-export">⬇ Exporter (JSON)</button>
-        <button class="btn danger" id="btn-del">🗑 Supprimer</button>
+        <a class="btn" href="#/${listRoute}/nouveau/${encodeURIComponent(rec.id)}">âœï¸ Modifier</a>
+        <button class="btn secondary" id="btn-print">ðŸ–¨ Imprimer / PDF</button>
+        <button class="btn secondary" id="btn-export">â¬‡ Exporter (JSON)</button>
+        <button class="btn danger" id="btn-del">ðŸ—‘ Supprimer</button>
       </div>
     `;
+
     $('#btn-print', view).onclick = () => window.print();
-    // QR code de la fiche projet
-    if (def.id === 'projet' && window.qrcode) {
+
+    if (def.id === 'projet' && window.QRCode && qrUrl) {
       try {
-        const qr = qrcode(0, 'M');
-        qr.addData(location.origin + location.pathname + '#/projets/voir/' + encodeURIComponent(rec.id));
-        qr.make();
-        const canvas = $('#qr-canvas', view);
-        if (canvas) {
-          const ctx = canvas.getContext('2d');
-          const n = qr.getModuleCount();
-          const size = canvas.width;
-          const cell = size / n;
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, size, size);
-          ctx.fillStyle = '#000000';
-          for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
-            if (qr.isDark(r, c)) ctx.fillRect(Math.floor(c * cell), Math.floor(r * cell), Math.ceil(cell), Math.ceil(cell));
-          }
-        }
+        const box = $('#qr-box', view);
+        if (box) new QRCode(box, { text: qrUrl, width: 200, height: 200, colorDark: '#000000', colorLight: '#ffffff' });
       } catch (e) { console.warn('QR:', e); }
     }
+
     $('#btn-export', view).onclick = () => exportJson(formTitleOf(def, rec.values).replace(/[^a-z0-9]+/gi, '_') + '.json', rec);
     $('#btn-del', view).onclick = async () => {
-      if (confirm('Supprimer définitivement cet enregistrement ?')) {
+      if (confirm('Supprimer dÃ©finitivement cet enregistrement ?')) {
         await delRec(def.store, rec.id);
-        toast('🗑 Supprimé');
+        toast('ðŸ—‘ SupprimÃ©');
         location.hash = '#/' + listRoute;
       }
     };
   };
 }
 
-/* ---------- Nouveau / édition ---------- */
+/* ---------- Nouveau / Ã©dition ---------- */
 function formEditView(defId, existingId) {
   return async function () {
     const data = await loadData();
@@ -1058,7 +1066,6 @@ function formEditView(defId, existingId) {
     const rec = existingId ? await DB.get(def.store, existingId) : null;
     if (existingId && !rec) { view.innerHTML = `<div class="empty">Enregistrement introuvable.</div>`; return; }
     const values = rec ? { ...rec.values } : {};
-    // migration : ancien champ "contact principal" unique → liste de contacts
     if (rec && rec.values.contactNom && !rec.values.contacts) {
       values.contacts = [{ nom: rec.values.contactNom || '', role: '', tel: rec.values.contactTel || '', mail: rec.values.contactMail || '' }];
     }
@@ -1067,21 +1074,21 @@ function formEditView(defId, existingId) {
     const listRoute = defId === 'projet' ? 'projets' : 'avancement';
 
     view.innerHTML = `
-      <p class="no-print"><a href="#/${listRoute}">← Retour à la liste</a></p>
-      <h2 class="page-title">${def.ico} ${rec ? 'Modifier' : 'Nouveau'} — ${esc(def.title)}</h2>
+      <p class="no-print"><a href="#/${listRoute}">â† Retour Ã  la liste</a></p>
+      <h2 class="page-title">${def.ico} ${rec ? 'Modifier' : 'Nouveau'} â€” ${esc(def.title)}</h2>
       <p class="page-sub">${esc(def.desc)}</p>
       <div class="card">
         <div class="grid2">
           ${def.fields.map(f => fieldHtml(f, values[f.id], projets)).join('')}
         </div>
         <div class="btn-row">
-          <button class="btn" id="btn-save">💾 Enregistrer</button>
+          <button class="btn" id="btn-save">ðŸ’¾ Enregistrer</button>
           <button class="btn ghost" id="btn-cancel">Annuler</button>
         </div>
       </div>
     `;
 
-    // champ "contacts" dynamique : ajouter / retirer des contacts
+    // champ "contacts" dynamique : ajouter / retirer
     const contactsDef = def.fields.find(f => f.type === 'contacts');
     if (contactsDef) {
       const bindDel = (btn) => { btn.onclick = () => btn.closest('.c-bloc').remove(); };
@@ -1092,9 +1099,9 @@ function formEditView(defId, existingId) {
         const div = document.createElement('div');
         div.className = 'c-bloc';
         div.style.cssText = 'border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:8px;background:#fff';
-        div.innerHTML = `<div class="grid2">${contactsDef.subfields.map(sf =>
-          `<div class="field"><label>${esc(sf.label)}</label><input type="${esc(sf.type || 'text')}" class="c-in" data-k="${esc(sf.id)}" placeholder="${esc(sf.placeholder || sf.label)}"></div>`).join('')}</div>
-          <button type="button" class="btn ghost c-del" style="padding:6px 12px">✕ Retirer ce contact</button>`;
+        const fields = contactsDef.subfields.map(sf =>
+          `<div class="field"><label>${esc(sf.label)}</label><input type="${esc(sf.type || 'text')}" class="c-in" data-k="${esc(sf.id)}" placeholder="${esc(sf.placeholder || sf.label)}"></div>`).join('');
+        div.innerHTML = `<div class="grid2">${fields}</div><button type="button" class="btn ghost c-del" style="padding:6px 12px">âœ• Retirer ce contact</button>`;
         box.appendChild(div);
         bindDel($('.c-del', div));
         const first = $('.c-in', div);
@@ -1102,28 +1109,22 @@ function formEditView(defId, existingId) {
       };
     }
 
-    // champs "photos" : galerie de photos redimensionnées en JPEG (comme pour l'inspection)
-    def.fields.filter(f => f.type === 'photos').forEach(f => {
-      const box = $('#ph-' + f.id, view);
-      const hidden = $('#fld-' + f.id, view);
-      if (!box || !hidden) return;
-      let arr = [];
-      try { const a = JSON.parse(hidden.value || '[]'); if (Array.isArray(a)) arr = a; } catch (e) { arr = []; }
-      const sync = () => { hidden.value = JSON.stringify(arr); };
-      const renderGal = () => {
-        $$('.photo', box).forEach(n => n.remove());
-        arr.forEach((ph, i) => {
-          const d = document.createElement('div');
-          d.className = 'photo';
-          d.innerHTML = `<img src="${ph}" alt="photo ${i + 1}"><button type="button" class="del" title="Supprimer">✕</button>`;
-          $('.del', d).onclick = () => { arr.splice(i, 1); sync(); renderGal(); };
-          box.insertBefore(d, box.querySelector('.add-photo'));
-        });
+    // champ "photos" : galerie + ajout redimensionnÃ© (hidden #fld-<id> = JSON du tableau)
+    const photosDef = def.fields.find(f => f.type === 'photos');
+    if (photosDef) {
+      const box = $('#ph-' + photosDef.id, view);
+      const hidden = $('#fld-' + photosDef.id, view);
+      const addFile = $('.file', box);
+      const delPhoto = (ph) => {
+        const i = [...box.querySelectorAll('.photo')].indexOf(ph);
+        const c = JSON.parse(hidden.value || '[]');
+        c.splice(i, 1);
+        hidden.value = JSON.stringify(c);
+        ph.remove();
       };
-      const file = $('.file', box);
-      if (file) file.onchange = () => {
-        const f0 = file.files[0];
-        if (!f0) return;
+      if (addFile) addFile.onchange = () => {
+        const f = addFile.files[0];
+        if (!f) return;
         const reader = new FileReader();
         reader.onload = () => {
           const img = new Image();
@@ -1134,17 +1135,23 @@ function formEditView(defId, existingId) {
             canvas.width = Math.round(img.width * scale);
             canvas.height = Math.round(img.height * scale);
             canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-            arr.push(canvas.toDataURL('image/jpeg', 0.82));
-            sync();
-            renderGal();
+            const cur = JSON.parse(hidden.value || '[]');
+            cur.push(canvas.toDataURL('image/jpeg', 0.82));
+            hidden.value = JSON.stringify(cur);
+            const ph = document.createElement('div');
+            ph.className = 'photo';
+            ph.innerHTML = '<img alt=""><button type="button" class="del" title="Supprimer">âœ•</button>';
+            ph.querySelector('img').src = cur[cur.length - 1];
+            ph.querySelector('.del').onclick = () => delPhoto(ph);
+            box.insertBefore(ph, addFile.closest('label'));
           };
           img.src = reader.result;
         };
-        reader.readAsDataURL(f0);
-        file.value = '';
+        reader.readAsDataURL(f);
+        addFile.value = '';
       };
-      renderGal();
-    });
+      $$('.photo .del', box).forEach((b) => { b.onclick = () => delPhoto(b.closest('.photo')); });
+    }
 
     $('#btn-cancel', view).onclick = () => location.hash = '#/' + listRoute;
     $('#btn-save', view).onclick = async () => {
@@ -1161,13 +1168,13 @@ function formEditView(defId, existingId) {
         updatedAt: now,
       };
       await DB.put(def.store, record);
-      toast('✅ Enregistré : ' + record.title);
+      toast('âœ… EnregistrÃ© : ' + record.title);
       location.hash = '#/' + listRoute;
     };
   };
 }
 
-/* ---------- routes concrètes ---------- */
+/* ---------- routes concrÃ¨tes ---------- */
 Routes.projets = listView('projet');
 Routes['projets/nouveau'] = function (id) { return formEditView('projet', id || null)(); };
 Routes['projets/voir'] = function (id) { return formReadView('projet', id)(); };
@@ -1181,39 +1188,36 @@ Routes.rapports = async function () {
   const insp = await DB.all('inspections');
   view.innerHTML = `
     <h2 class="page-title">Rapports d'inspection</h2>
-    <p class="page-sub">Historique enregistré sur cet appareil.</p>
+    <p class="page-sub">Historique enregistrÃ© sur cet appareil.</p>
     ${insp.length ? `<div class="list">${insp.map(renderInspItem).join('')}</div>`
-      : `<div class="empty"><span class="ico">🦺</span>Aucune inspection enregistrée.<br><br><a class="btn" href="#/inspection">Faire une inspection SST</a></div>`}
+      : `<div class="empty"><span class="ico">ðŸ¦º</span>Aucune inspection enregistrÃ©e.<br><br><a class="btn" href="#/inspection">Faire une inspection SST</a></div>`}
   `;
 };
 
 /* ============================================================
-   Routeur
+   Routeur + ruban + initialisation
    ============================================================ */
-/* Ruban du bas : les 4 onglets sur l'accueil, sinon UNIQUEMENT le bouton Accueil
-   → pour changer de page, on repasse toujours par l'accueil */
 const TABS = [
-  { route: 'accueil', ico: '🏠', label: 'Accueil' },
-  { route: 'projets', ico: '📁', label: 'Projets' },
-  { route: 'avancement', ico: '🚧', label: 'Avancement' },
-  { route: 'connaissances', ico: '📚', label: 'Connaissances' },
-  { route: 'inspection', ico: '🦺', label: 'Inspection SST', cta: true },
-  { route: 'rapports', ico: '📋', label: 'Rapports' },
+  { route: 'accueil', ico: 'ðŸ ', label: 'Accueil' },
+  { route: 'projets', ico: 'ðŸ“', label: 'Projets' },
+  { route: 'avancement', ico: 'ðŸš§', label: 'Avancement' },
+  { route: 'connaissances', ico: 'ðŸ“š', label: 'Connaissances' },
+  { route: 'inspection', ico: 'ðŸ¦º', label: 'Inspection SST', cta: true },
+  { route: 'rapports', ico: 'ðŸ“‹', label: 'Rapports' },
 ];
+
 function renderTabbar(route) {
   const bar = $('#tabbar');
   const isHome = !route || route === 'accueil';
   if (isHome) {
-    // sur l'accueil : pas de ruban du tout
     bar.innerHTML = '';
     bar.style.display = 'none';
     document.body.style.paddingBottom = '0';
     return;
   }
-  // ailleurs : uniquement le bouton Accueil pour revenir à l'accueil
   bar.style.display = 'flex';
   document.body.style.paddingBottom = '76px';
-  bar.innerHTML = `<a href="#/accueil" data-route="accueil" class="active"><span class="tab-ico">🏠</span>Accueil</a>`;
+  bar.innerHTML = `<a href="#/accueil" data-route="accueil" class="active"><span class="tab-ico">ðŸ </span>Accueil</a>`;
 }
 
 async function router() {
@@ -1221,7 +1225,6 @@ async function router() {
   const hash = location.hash.replace(/^#\/?/, '');
   const [route, ...params] = hash.split('/');
   renderTabbar(route);
-
   try {
     if (!route || route === 'accueil') await Routes.accueil();
     else if (route === 'connaissances') await Routes.connaissances();
@@ -1245,8 +1248,20 @@ async function router() {
 }
 
 window.addEventListener('hashchange', router);
+
+(function ensureThemeBtn() {
+  const bar = $('#topbar');
+  if (bar && !$('#btn-theme')) {
+    const b = document.createElement('button');
+    b.id = 'btn-theme';
+    b.className = 'btn ghost';
+    b.style.cssText = 'color:#fff;border-color:rgba(255,255,255,.4);padding:4px 10px';
+    b.title = 'ThÃ¨me sombre / clair';
+    b.onclick = () => applyTheme(!document.documentElement.classList.contains('dark'));
+    bar.appendChild(b);
+  }
+})();
+
 initTheme();
-const themeBtn = $('#btn-theme');
-if (themeBtn) themeBtn.onclick = () => applyTheme(!document.documentElement.classList.contains('dark'));
 initLock();
 router();
