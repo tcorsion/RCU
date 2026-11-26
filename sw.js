@@ -1,5 +1,5 @@
 /* Service worker — mode hors-ligne complet (app + documents PDF) */
-const CACHE = 'cu-app-v5';
+const CACHE = 'cu-app-v6';
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
